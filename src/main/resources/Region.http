@@ -1,0 +1,29 @@
+### 1. Region create
+POST http://localhost:8080/region/create
+Content-Type: application/json
+
+{
+  "orderNumber": 5,
+  "nameUz": "Namangan",
+  "nameRu": "Наманган",
+  "nameEn": "Namangan"
+}
+
+### 2. Region update
+PUT http://localhost:8080/region/update/5
+Content-Type: application/json
+
+{
+  "orderNumber": 5,
+  "nameUz": "Namangan",
+  "nameRu": "Наманган",
+  "nameEn": "Namangan",
+  "visible": true
+}
+
+### 3. Region list
+GET http://localhost:8080/region/list
+
+### 4. Region delete
+###
+DELETE http://localhost:8080/region/delete/1
