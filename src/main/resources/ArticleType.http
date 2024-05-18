@@ -1,0 +1,23 @@
+### 1. Create articleType
+POST http://localhost:8080/article-type/create
+Content-Type: application/json
+
+{
+  "orderNumber": 2,
+  "nameUz": "Muharrir",
+  "nameRu": "Редактор",
+  "nameEn": "Editor"
+}
+
+### 2. Update articleType
+PUT http://localhost:8080/article-type/update/2
+Content-Type: application/json
+
+{
+
+  "orderNumber": 2,
+  "nameUz": "Muharrir",
+  "nameRu": "Редактор",
+  "nameEn": "Editor",
+  "visible": false
+}

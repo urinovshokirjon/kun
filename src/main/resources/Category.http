@@ -1,0 +1,28 @@
+### 1. Category created
+POST http://localhost:8080/category/create
+Content-Type: application/json
+
+{
+  "orderNumber": 0,
+  "nameUz": "",
+  "nameRu": "",
+  "nameEn": ""
+}
+
+### 2. Update category
+PUT http://localhost:8080/category/update/4
+Content-Type: application/json
+
+{
+  "orderNumber": 4,
+  "nameUz": "AUDIO",
+  "nameRu": "АУДИО",
+  "nameEn": "AUDIO",
+  "visible": false
+}
+
+### 3. Category list
+GET http://localhost:8080/category/list
+
+### 4. Delete category
+DELETE http://localhost:8080/category/delete/2
