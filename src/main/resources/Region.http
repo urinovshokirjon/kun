@@ -26,3 +26,7 @@ GET http://localhost:8080/region/list
 
 ### 4. Region delete
 DELETE http://localhost:8080/region/delete/1
+
+### 5. Region By Lang
+GET http://localhost:8080/region/lang?
+    lang=en

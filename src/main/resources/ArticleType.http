@@ -3,10 +3,10 @@ POST http://localhost:8080/article-type/create
 Content-Type: application/json
 
 {
-  "orderNumber": 2,
-  "nameUz": "Muharrir",
-  "nameRu": "Редактор",
-  "nameEn": "Editor"
+  "orderNumber": 8,
+  "nameUz": "Video Yangilik",
+  "nameRu": "Видео новости",
+  "nameEn": "Video News"
 }
 
 ### 2. Update articleType
@@ -16,8 +16,22 @@ Content-Type: application/json
 {
 
   "orderNumber": 2,
-  "nameUz": "Muharrir",
+  "nameUz": "Dolzarb",
   "nameRu": "Редактор",
   "nameEn": "Editor",
   "visible": false
 }
+
+### 3. ArticleType page
+GET http://localhost:8080/article-type/page?
+    page=1&
+    size=3
+
+### 4. ArticleType delete
+DELETE http://localhost:8080/article-type/delete/2
+
+### 5. Get By Lang ArticleType
+GET http://localhost:8080/article-type/lang?
+    page=1&
+    size=3&
+    lang=uz

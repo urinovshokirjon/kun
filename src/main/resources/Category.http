@@ -26,3 +26,7 @@ GET http://localhost:8080/category/list
 
 ### 4. Delete category
 DELETE http://localhost:8080/category/delete/2
+
+### 5. Category By Lang
+GET http://localhost:8080/category/lang?
+    lang=ru

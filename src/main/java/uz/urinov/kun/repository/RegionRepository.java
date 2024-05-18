@@ -10,6 +10,8 @@ public interface RegionRepository extends CrudRepository<RegionEntity, Integer> 
     // 3. Region list
     List<RegionEntity> findAllByVisibleTrue();
 
+    // 5. Region By Lang
+
 
 
 }

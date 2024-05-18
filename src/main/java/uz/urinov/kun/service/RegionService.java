@@ -3,6 +3,7 @@ package uz.urinov.kun.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uz.urinov.kun.dto.RegionDto;
+import uz.urinov.kun.dto.RegionLangDto;
 import uz.urinov.kun.dto.Result;
 import uz.urinov.kun.entity.RegionEntity;
 import uz.urinov.kun.repository.RegionRepository;
@@ -58,6 +59,31 @@ public class RegionService {
         regionEntity.setVisible(false);
         regionRepository.save(regionEntity);
         return new Result("Region o'chirildi",true);
+    }
+
+    // 5. Region By Lang
+    public List<RegionLangDto> getRegionByLang(String lang) {
+        List<RegionLangDto> regionLangDtoList = new ArrayList<>();
+
+        List<RegionEntity> allByVisibleTrue = regionRepository.findAllByVisibleTrue();
+        for (RegionEntity regionEntity : allByVisibleTrue) {
+
+            RegionLangDto regionLangDto = new RegionLangDto();
+            regionLangDto.setId(regionEntity.getId());
+            regionLangDto.setOrderNumber(regionEntity.getOrderNumber());
+
+            if (lang.equals("uz")){
+                regionLangDto.setName(regionEntity.getNameUz());
+            }
+            if (lang.equals("ru")){
+                regionLangDto.setName(regionEntity.getNameRu());
+            }
+            if (lang.equals("en")){
+                regionLangDto.setName(regionEntity.getNameEn());
+            }
+            regionLangDtoList.add(regionLangDto);
+        }
+        return regionLangDtoList;
     }
 
 

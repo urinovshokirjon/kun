@@ -3,9 +3,9 @@ package uz.urinov.kun.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uz.urinov.kun.dto.CategoryDto;
+import uz.urinov.kun.dto.CategoryLangDto;
 import uz.urinov.kun.dto.Result;
 import uz.urinov.kun.entity.CategoryEntity;
-import uz.urinov.kun.entity.RegionEntity;
 import uz.urinov.kun.repository.CategoryRepository;
 
 import java.util.ArrayList;
@@ -43,7 +43,7 @@ public class CategoryService {
     // 3. Category list
     public List<CategoryDto> getCategoryList() {
         List<CategoryDto> categoryDtoList = new ArrayList<>();
-        for (CategoryEntity categoryEntity : categoryRepository.findAllByVisibleTrue()) {
+        for (CategoryEntity categoryEntity : categoryRepository.findAllByVisibleTrueOrderByOrderNumber()) {
 
             categoryDtoList.add(getCategoryDto(categoryEntity));
         }
@@ -61,6 +61,27 @@ public class CategoryService {
         categoryEntity.setVisible(false);
         categoryRepository.save(categoryEntity);
         return new Result("Category  o'chirildi",true);
+    }
+    // 5. Category By Lang
+    public List<CategoryLangDto> getCategoryByLang(String lang) {
+        List<CategoryLangDto> categoryLangDtoList = new ArrayList<>();
+        for (CategoryEntity categoryEntity : categoryRepository.findAllByVisibleTrueOrderByOrderNumber()) {
+            CategoryLangDto categoryLangDto=new CategoryLangDto();
+            categoryLangDto.setId(categoryEntity.getId());
+            categoryLangDto.setOrderNumber(categoryEntity.getOrderNumber());
+
+            if (lang.equals("uz")){
+                categoryLangDto.setName(categoryEntity.getNameUz());
+            }
+            if (lang.equals("ru")){
+                categoryLangDto.setName(categoryEntity.getNameRu());
+            }
+            if (lang.equals("en")){
+                categoryLangDto.setName(categoryEntity.getNameEn());
+            }
+            categoryLangDtoList.add(categoryLangDto);
+        }
+    return categoryLangDtoList;
     }
 
 

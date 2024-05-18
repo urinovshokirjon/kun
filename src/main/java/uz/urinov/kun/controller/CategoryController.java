@@ -5,6 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.urinov.kun.dto.CategoryDto;
+import uz.urinov.kun.dto.CategoryLangDto;
+import uz.urinov.kun.dto.RegionLangDto;
 import uz.urinov.kun.dto.Result;
 import uz.urinov.kun.entity.CategoryEntity;
 import uz.urinov.kun.service.CategoryService;
@@ -43,6 +45,13 @@ public class CategoryController {
     public ResponseEntity<Result> deleteRegion( @PathVariable int id) {
         Result result = categoryService.deleteRegion(id);
         return ResponseEntity.status(result.isSuccess()? HttpStatus.OK: HttpStatus.CONFLICT).body(result);
+    }
+
+    // 5. Category By Lang
+    @GetMapping("/lang")
+    public ResponseEntity<List<CategoryLangDto>> getCategoryByLang(@RequestParam String lang) {
+        List<CategoryLangDto> categoryLangDtoList=categoryService.getCategoryByLang(lang);
+        return ResponseEntity.status(HttpStatus.OK).body(categoryLangDtoList);
     }
 
 
