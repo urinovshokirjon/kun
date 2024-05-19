@@ -9,6 +9,6 @@ public class KunApplication {
     public static void main(String[] args) {
         SpringApplication.run(KunApplication.class, args);
     }
-    // Personal project
+    // Innovation project
 
 }
