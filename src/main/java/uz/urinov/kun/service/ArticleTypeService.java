@@ -74,9 +74,13 @@ public class ArticleTypeService {
         Pageable pageable= PageRequest.of(page, size);
 
         Page<ArticleTypeEntity> articleTypeEntityList = articleTypeRepository.findAllByVisibleTrueOrderByOrderNumber(pageable);
+
         for (ArticleTypeEntity articleTypeEntity : articleTypeEntityList.getContent()) {
+
             ArticleTypeLangDto articleTypeLangDto=new ArticleTypeLangDto();
+
             articleTypeLangDto.setId(articleTypeEntity.getId());
+
             articleTypeLangDto.setOrderNumber(articleTypeEntity.getOrderNumber());
 
             if (lang.equals("uz")) {
@@ -88,6 +92,7 @@ public class ArticleTypeService {
             if (lang.equals("en")) {
                 articleTypeLangDto.setName(articleTypeEntity.getNameEn());
             }
+
             articleTypeLangDtoList.add(articleTypeLangDto);
         }
         return new PageImpl<>(articleTypeLangDtoList,pageable,articleTypeEntityList.getTotalElements());

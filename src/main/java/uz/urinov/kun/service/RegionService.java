@@ -2,15 +2,17 @@ package uz.urinov.kun.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import uz.urinov.kun.dto.RegionDto;
-import uz.urinov.kun.dto.RegionLangDto;
 import uz.urinov.kun.dto.Result;
+import uz.urinov.kun.mapper.RegionMapper;
+import uz.urinov.kun.dto.RegionCreateDTO;
+import uz.urinov.kun.dto.RegionResponseDTO;
 import uz.urinov.kun.entity.RegionEntity;
+import uz.urinov.kun.enums.LanguageEnum;
+import uz.urinov.kun.exp.AppBadException;
 import uz.urinov.kun.repository.RegionRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class RegionService {
@@ -18,99 +20,101 @@ public class RegionService {
     private RegionRepository regionRepository;
 
     // 1. Region create
-    public Result createRegion(RegionDto regionDto) {
-        RegionEntity regionEntity = getRegionEntity(regionDto);
-        regionRepository.save(regionEntity);
-        return new Result("Region saqlandi",true);
+    public RegionResponseDTO createRegion(RegionCreateDTO createDTO) {
+        RegionEntity entity = new RegionEntity();
+        entity.setOrderNumber(createDTO.getOrderNumber());
+        entity.setNameUz(createDTO.getNameUz());
+        entity.setNameRu(createDTO.getNameRu());
+        entity.setNameEn(createDTO.getNameEn());
+
+        regionRepository.save(entity);
+        return toDTO(entity);
     }
 
-    // 2. Region update
-    public Result updateRegion(RegionDto regionDto, int id) {
-        Optional<RegionEntity> regionEntityOptional = regionRepository.findById(id);
-        if (regionEntityOptional.isEmpty()) {
-            return new Result("Region not found",false);
-        }
-        RegionEntity regionEntity = regionEntityOptional.get();
-        regionEntity.setVisible(regionDto.getVisible());
-        regionEntity.setOrderNumber(regionDto.getOrderNumber());
-        regionEntity.setNameUz(regionDto.getNameUz());
-        regionEntity.setNameRu(regionDto.getNameRu());
-        regionEntity.setNameEn(regionDto.getNameEn());
-        regionRepository.save(regionEntity);
-        return new Result("Region o'zgartirildi",true);
+    // 2. Region update (ADMIN)
+    public Result updateRegion(RegionCreateDTO regionDto, int id) {
+      RegionEntity regionEntity=getRegionEntityById(id);
+      regionEntity.setOrderNumber(regionDto.getOrderNumber());
+      regionEntity.setNameUz(regionDto.getNameUz());
+      regionEntity.setNameRu(regionDto.getNameRu());
+      regionEntity.setNameEn(regionDto.getNameEn());
+      regionRepository.save(regionEntity);
+      return new Result("Category update",true);
     }
 
-    // 3. Region list
-    public List<RegionDto> getRegionList() {
-        List<RegionDto> regionDtoList = new ArrayList<>();
-        for (RegionEntity regionEntity : regionRepository.findAllByVisibleTrue()) {
-            regionDtoList.add(getRegionDto(regionEntity));
+    // 3. Region list (ADMIN)
+    public List<RegionResponseDTO> getRegionList() {
+
+        List<RegionResponseDTO> regionDtoList = new ArrayList<>();
+
+        for (RegionEntity regionEntity : regionRepository.findAll()) {
+            regionDtoList.add(toDTO(regionEntity));
         }
         return regionDtoList;
     }
 
-    //4. Region delete
+    //4. Region delete (ADMIN)
     public Result deleteRegion(int id) {
-        Optional<RegionEntity> regionEntityOptional = regionRepository.findById(id);
-        if (regionEntityOptional.isEmpty()) {
-            return new Result("Region not found",false);
-        }
-        RegionEntity regionEntity = regionEntityOptional.get();
-        regionEntity.setVisible(false);
-        regionRepository.save(regionEntity);
-        return new Result("Region o'chirildi",true);
+        RegionEntity regionEntity = getRegionEntityById(id);
+        regionRepository.delete(regionEntity);
+        return new Result("Category delete",true);
     }
 
     // 5. Region By Lang
-    public List<RegionLangDto> getRegionByLang(String lang) {
-        List<RegionLangDto> regionLangDtoList = new ArrayList<>();
+    public List<RegionResponseDTO> getRegionByLang(LanguageEnum lang) {
 
-        List<RegionEntity> allByVisibleTrue = regionRepository.findAllByVisibleTrue();
+        List<RegionResponseDTO> regionLangDtoList = new ArrayList<>();
+
+        List<RegionEntity> allByVisibleTrue = regionRepository.findAllVisible();
+
         for (RegionEntity regionEntity : allByVisibleTrue) {
 
-            RegionLangDto regionLangDto = new RegionLangDto();
+            RegionResponseDTO regionLangDto = new RegionResponseDTO();
             regionLangDto.setId(regionEntity.getId());
-            regionLangDto.setOrderNumber(regionEntity.getOrderNumber());
-
-            if (lang.equals("uz")){
-                regionLangDto.setName(regionEntity.getNameUz());
-            }
-            if (lang.equals("ru")){
-                regionLangDto.setName(regionEntity.getNameRu());
-            }
-            if (lang.equals("en")){
-                regionLangDto.setName(regionEntity.getNameEn());
+            switch (lang) {
+                case UZ -> regionLangDto.setName(regionEntity.getNameUz());
+                case RU -> regionLangDto.setName(regionEntity.getNameRu());
+                case EN -> regionLangDto.setName(regionEntity.getNameEn());
             }
             regionLangDtoList.add(regionLangDto);
         }
         return regionLangDtoList;
     }
 
+    // 5. Region By Lang (Native query)
+    public List<RegionResponseDTO> getRegionByLang2(LanguageEnum lang) {
 
+        List<RegionResponseDTO> regionLangDtoList = new ArrayList<>();
 
+        List<RegionMapper> allByVisibleTrue = regionRepository.findAll(lang.name());
 
-
-    public RegionDto getRegionDto(RegionEntity regionEntity){
-        RegionDto regionDto = new RegionDto();
-        regionDto.setId(regionEntity.getId());
-        regionDto.setOrderNumber(regionEntity.getOrderNumber());
-        regionDto.setNameUz(regionEntity.getNameUz());
-        regionDto.setNameRu(regionEntity.getNameRu());
-        regionDto.setNameEn(regionEntity.getNameEn());
-        regionDto.setVisible(regionEntity.getVisible());
-        regionDto.setCreateDate(regionEntity.getCreateDate());
-        return regionDto;
+        for (RegionMapper regionMapper : allByVisibleTrue) {
+            RegionResponseDTO regionLangDto = new RegionResponseDTO();
+            regionLangDto.setId(regionMapper.getId());
+            regionLangDto.setName(regionMapper.getName());
+            regionLangDtoList.add(regionLangDto);
+        }
+        return regionLangDtoList;
     }
 
-    public RegionEntity getRegionEntity(RegionDto regionDto){
-        RegionEntity regionEntity = new RegionEntity();
-        regionEntity.setId(regionDto.getId());
-        regionEntity.setOrderNumber(regionDto.getOrderNumber());
-        regionEntity.setNameUz(regionDto.getNameUz());
-        regionEntity.setNameRu(regionDto.getNameRu());
-        regionEntity.setNameEn(regionDto.getNameEn());
-        return regionEntity;
+
+    public RegionResponseDTO toDTO(RegionEntity entity){
+        RegionResponseDTO dto = new RegionResponseDTO();
+        dto.setId(entity.getId());
+        dto.setNameUz(entity.getNameUz());
+        dto.setNameEn(entity.getNameEn());
+        dto.setNameRu(entity.getNameRu());
+        dto.setOrderNumber(entity.getOrderNumber());
+        dto.setCreateDate(entity.getCreateDate());
+        return dto;
     }
+
+    public RegionEntity getRegionEntityById(int id) {
+        return regionRepository.findById(id).orElseThrow(() -> {
+            throw new AppBadException("Region not found");
+        });
+    }
+
 
 
 

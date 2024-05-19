@@ -3,22 +3,21 @@ POST http://localhost:8080/category/create
 Content-Type: application/json
 
 {
-  "orderNumber": 0,
-  "nameUz": "",
-  "nameRu": "",
-  "nameEn": ""
+  "orderNumber": 5,
+  "nameUz": "JAMIYAT",
+  "nameRu": "ОБЩЕСТВО",
+  "nameEn": "SOCIETY"
 }
 
 ### 2. Update category
-PUT http://localhost:8080/category/update/4
+PUT http://localhost:8080/category/update/5
 Content-Type: application/json
 
 {
-  "orderNumber": 4,
-  "nameUz": "AUDIO",
-  "nameRu": "АУДИО",
-  "nameEn": "AUDIO",
-  "visible": false
+  "orderNumber": 5,
+  "nameUz": "JAMIYAT",
+  "nameRu": "ОБЩЕСТВО",
+  "nameEn": "SOCIETY"
 }
 
 ### 3. Category list
@@ -28,5 +27,5 @@ GET http://localhost:8080/category/list
 DELETE http://localhost:8080/category/delete/2
 
 ### 5. Category By Lang
-GET http://localhost:8080/category/lang?
-    lang=ru
+GET http://localhost:8080/category/lang
+Accept-Language: RU

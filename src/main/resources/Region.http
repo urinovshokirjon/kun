@@ -3,22 +3,22 @@ POST http://localhost:8080/region/create
 Content-Type: application/json
 
 {
-  "orderNumber": 5,
-  "nameUz": "Namangan",
-  "nameRu": "Наманган",
-  "nameEn": "Namangan"
+  "orderNumber": 6,
+  "nameUz": "Jizzax",
+  "nameRu": "Джизак",
+  "nameEn": "Jizzakh"
 }
 
+
 ### 2. Region update
-PUT http://localhost:8080/region/update/5
+PUT http://localhost:8080/region/update/6
 Content-Type: application/json
 
 {
-  "orderNumber": 5,
-  "nameUz": "Namangan",
-  "nameRu": "Наманган",
-  "nameEn": "Namangan",
-  "visible": true
+  "orderNumber": 6,
+  "nameUz": "Jizzax",
+  "nameRu": "Джизак",
+  "nameEn": "Jizzakh"
 }
 
 ### 3. Region list
@@ -28,5 +28,5 @@ GET http://localhost:8080/region/list
 DELETE http://localhost:8080/region/delete/1
 
 ### 5. Region By Lang
-GET http://localhost:8080/region/lang?
-    lang=en
+GET http://localhost:8080/region/lang
+Accept-Language: UZ

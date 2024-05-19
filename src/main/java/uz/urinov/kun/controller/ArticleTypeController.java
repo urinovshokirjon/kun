@@ -1,6 +1,5 @@
 package uz.urinov.kun.controller;
 
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
@@ -11,11 +10,10 @@ import uz.urinov.kun.dto.ArticleTypeLangDto;
 import uz.urinov.kun.dto.Result;
 import uz.urinov.kun.service.ArticleTypeService;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/article-type")
-public class ArticleTypeCategory {
+public class ArticleTypeController {
+
     @Autowired
     private ArticleTypeService articleTypeService;
 

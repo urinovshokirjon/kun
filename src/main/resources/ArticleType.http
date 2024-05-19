@@ -34,4 +34,4 @@ DELETE http://localhost:8080/article-type/delete/2
 GET http://localhost:8080/article-type/lang?
     page=1&
     size=3&
-    lang=uz
+    lang=ru
