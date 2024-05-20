@@ -2,7 +2,6 @@ package uz.urinov.kun.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import uz.urinov.kun.dto.Result;
 import uz.urinov.kun.mapper.RegionMapper;
 import uz.urinov.kun.dto.RegionCreateDTO;
 import uz.urinov.kun.dto.RegionResponseDTO;
@@ -32,14 +31,14 @@ public class RegionService {
     }
 
     // 2. Region update (ADMIN)
-    public Result updateRegion(RegionCreateDTO regionDto, int id) {
+    public Boolean updateRegion(RegionCreateDTO regionDto, int id) {
       RegionEntity regionEntity=getRegionEntityById(id);
       regionEntity.setOrderNumber(regionDto.getOrderNumber());
       regionEntity.setNameUz(regionDto.getNameUz());
       regionEntity.setNameRu(regionDto.getNameRu());
       regionEntity.setNameEn(regionDto.getNameEn());
       regionRepository.save(regionEntity);
-      return new Result("Category update",true);
+      return true;
     }
 
     // 3. Region list (ADMIN)
@@ -54,10 +53,10 @@ public class RegionService {
     }
 
     //4. Region delete (ADMIN)
-    public Result deleteRegion(int id) {
+    public Boolean deleteRegion(int id) {
         RegionEntity regionEntity = getRegionEntityById(id);
         regionRepository.delete(regionEntity);
-        return new Result("Category delete",true);
+        return true;
     }
 
     // 5. Region By Lang

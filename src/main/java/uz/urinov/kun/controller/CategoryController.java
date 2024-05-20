@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.urinov.kun.dto.CategoryCreateDto;
 import uz.urinov.kun.dto.CategoryResponseDto;
-import uz.urinov.kun.dto.Result;
 import uz.urinov.kun.enums.LanguageEnum;
 import uz.urinov.kun.service.CategoryService;
 

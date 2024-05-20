@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.urinov.kun.dto.RegionCreateDTO;
 import uz.urinov.kun.dto.RegionResponseDTO;
-import uz.urinov.kun.dto.Result;
 import uz.urinov.kun.enums.LanguageEnum;
 import uz.urinov.kun.service.RegionService;
 
@@ -29,10 +28,10 @@ public class RegionController {
 
     // 2. Region update (ADMIN)
     @PutMapping("/update/{id}")
-    public ResponseEntity<Result> updateRegion(@Valid @RequestBody RegionCreateDTO regionDto,
+    public ResponseEntity<Boolean> updateRegion(@Valid @RequestBody RegionCreateDTO regionDto,
                                                @PathVariable("id") int id) {
-        Result result = regionService.updateRegion(regionDto,id);
-        return ResponseEntity.status(result.isSuccess()?HttpStatus.OK:HttpStatus.CONFLICT).body(result);
+        Boolean result = regionService.updateRegion(regionDto,id);
+        return ResponseEntity.ok().body(result);
     }
 
     // 3. Region list (ADMIN)
@@ -44,9 +43,9 @@ public class RegionController {
 
     // 4. Region delete (ADMIN)
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Result> deleteRegion( @PathVariable int id) {
-        Result result = regionService.deleteRegion(id);
-        return ResponseEntity.status(result.isSuccess()?HttpStatus.OK:HttpStatus.CONFLICT).body(result);
+    public ResponseEntity<Boolean> deleteRegion( @PathVariable int id) {
+        Boolean result = regionService.deleteRegion(id);
+        return ResponseEntity.ok().body(result);
     }
 
     // 5. Region By Lang

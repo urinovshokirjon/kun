@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.urinov.kun.dto.ArticleTypeCreateDto;
 import uz.urinov.kun.dto.ArticleTypeResponseDto;
-import uz.urinov.kun.dto.Result;
 import uz.urinov.kun.enums.LanguageEnum;
 import uz.urinov.kun.service.ArticleTypeService;
 

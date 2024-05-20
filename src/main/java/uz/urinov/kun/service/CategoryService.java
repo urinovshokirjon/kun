@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uz.urinov.kun.dto.CategoryCreateDto;
 import uz.urinov.kun.dto.CategoryResponseDto;
-import uz.urinov.kun.dto.RegionResponseDTO;
-import uz.urinov.kun.dto.Result;
 import uz.urinov.kun.entity.CategoryEntity;
-import uz.urinov.kun.entity.RegionEntity;
 import uz.urinov.kun.enums.LanguageEnum;
 import uz.urinov.kun.exp.AppBadException;
 import uz.urinov.kun.mapper.CategoryMapper;
@@ -15,7 +12,6 @@ import uz.urinov.kun.repository.CategoryRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CategoryService {
