@@ -35,14 +35,14 @@ public class CategoryService {
     }
 
     // 2. Update category
-    public Result updateCategory(int id, CategoryCreateDto categoryDto) {
+    public Boolean updateCategory(int id, CategoryCreateDto categoryDto) {
         CategoryEntity categoryEntity = getCategoryEntityById(id);
         categoryEntity.setOrderNumber(categoryDto.getOrderNumber());
         categoryEntity.setNameUz(categoryDto.getNameUz());
         categoryEntity.setNameRu(categoryDto.getNameRu());
         categoryEntity.setNameEn(categoryDto.getNameEn());
         categoryRepository.save(categoryEntity);
-        return new Result("Category tahrirlandi",true);
+        return true;
     }
 
     // 3. Category list
@@ -57,10 +57,10 @@ public class CategoryService {
     }
 
     //4. Category delete
-    public Result deleteRegion(int id) {
+    public Boolean deleteRegion(int id) {
         CategoryEntity categoryEntity = getCategoryEntityById(id);
         categoryRepository.delete(categoryEntity);
-        return new Result("Category  o'chirildi",true);
+        return true;
     }
     // 5. Category By Lang
     public List<CategoryResponseDto> getCategoryByLang(LanguageEnum lang) {

@@ -1,7 +1,6 @@
 package uz.urinov.kun.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -9,15 +8,10 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
-
 @Setter
 @Getter
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ArticleTypeDto {
-
-    private Integer id;
-
+public class ArticleTypeCreateDto {
 
     @NotNull(message = " Type number bo'sh bo'lishi mumkin emas")
     @Min(value = 1, message = "Type number ning qiymati minimal 1 bo'lsin")
@@ -35,7 +29,4 @@ public class ArticleTypeDto {
     @Size(min = 3, max = 50, message = "Berilgan Type (Name En) ning uzunligi 3 va 50 orasida bo'lishi kerak")
     private String nameEn;
 
-    private Boolean visible;
-
-    private LocalDate createDate;
 }

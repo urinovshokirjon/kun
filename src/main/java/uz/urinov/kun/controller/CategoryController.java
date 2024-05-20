@@ -27,9 +27,9 @@ public class CategoryController {
 
     // 2. Update category
     @PutMapping("/update/{id}")
-    public ResponseEntity<Result> updateCategory(@PathVariable int id, @RequestBody CategoryCreateDto categoryDto) {
-        Result result = categoryService.updateCategory(id, categoryDto);
-        return ResponseEntity.status(result.isSuccess() ? HttpStatus.OK : HttpStatus.CONFLICT).body(result);
+    public ResponseEntity<Boolean> updateCategory(@PathVariable int id, @RequestBody CategoryCreateDto categoryDto) {
+        Boolean result = categoryService.updateCategory(id, categoryDto);
+        return ResponseEntity.ok().body(result);
     }
 
     // 3. Category list
@@ -41,9 +41,9 @@ public class CategoryController {
 
     // 4. Delete category
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Result> deleteRegion( @PathVariable int id) {
-        Result result = categoryService.deleteRegion(id);
-        return ResponseEntity.status(result.isSuccess()? HttpStatus.OK: HttpStatus.CONFLICT).body(result);
+    public ResponseEntity<Boolean> deleteRegion( @PathVariable int id) {
+        Boolean result = categoryService.deleteRegion(id);
+        return ResponseEntity.ok().body(result);
     }
 
     // 5. Category By Lang
