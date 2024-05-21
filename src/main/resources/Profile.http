@@ -1,0 +1,33 @@
+
+### 1. Create profile (ADMIN) (can create MODERATOR,PUBLISHER))
+###         (name,surname,email,phone,password,status,role)
+POST http://localhost:8080/profile/create
+Content-Type: application/json
+
+{
+  "name": "Aziz",
+  "surname": "Azizov",
+  "email": "aziz@gmail.com",
+  "phone": "998941234563",
+  "password": "12345"
+}
+
+### 3. Update Profile Detail (ANY) (Profile updates own details)
+PUT http://localhost:8080/profile/update-own/7
+Content-Type: application/json
+
+{
+  "name": "Temur",
+  "surname": "Abdurasulov",
+  "email": "azizbek92@gamil.com",
+  "phone": "998941521223",
+  "password": "12345"
+}
+
+###  4. Profile List (ADMIN) (Pagination)
+GET http://localhost:8080/profile/page?
+    page=1&
+    size=7
+
+### 5. Delete Profile By Id (ADMIN)
+DELETE http://localhost:8080/profile/delete/6

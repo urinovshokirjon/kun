@@ -10,6 +10,7 @@ import uz.urinov.kun.dto.ArticleTypeCreateDto;
 import uz.urinov.kun.dto.ArticleTypeResponseDto;
 import uz.urinov.kun.entity.ArticleTypeEntity;
 import uz.urinov.kun.enums.LanguageEnum;
+import uz.urinov.kun.enums.Result;
 import uz.urinov.kun.exp.AppBadException;
 import uz.urinov.kun.mapper.ArticleTypeMapper;
 import uz.urinov.kun.repository.ArticleTypeRepository;
@@ -34,14 +35,14 @@ public class ArticleTypeService {
     }
 
     // 2. Update ArticleType
-    public Boolean updateType(int id, ArticleTypeCreateDto articleTypeDto) {
+    public Result updateType(int id, ArticleTypeCreateDto articleTypeDto) {
         ArticleTypeEntity articleTypeEntity = getArticleTypeEntityById(id);
         articleTypeEntity.setOrderNumber(articleTypeDto.getOrderNumber());
         articleTypeEntity.setNameUz(articleTypeDto.getNameUz());
         articleTypeEntity.setNameRu(articleTypeDto.getNameRu());
         articleTypeEntity.setNameEn(articleTypeDto.getNameEn());
         articleTypeRepository.save(articleTypeEntity);
-        return true;
+        return new Result("ArticleTypeEntity update",true);
     }
 
     // 3. List ArticleType
@@ -56,10 +57,10 @@ public class ArticleTypeService {
     }
 
     // 4. Delete ArticleType
-    public Boolean deleteArticleType(int id) {
+    public Result deleteArticleType(int id) {
         ArticleTypeEntity articleTypeEntity = getArticleTypeEntityById(id);
         articleTypeRepository.delete(articleTypeEntity);
-        return true;
+        return new Result("ArticleTypeEntity delete",true);
     }
 
     // 5. Get By Lang ArticleType

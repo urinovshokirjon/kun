@@ -5,13 +5,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
-import uz.urinov.kun.dto.ArticleTypeCreateDto;
 import uz.urinov.kun.entity.ArticleTypeEntity;
-import uz.urinov.kun.entity.CategoryEntity;
 import uz.urinov.kun.mapper.ArticleTypeMapper;
-import uz.urinov.kun.mapper.CategoryMapper;
-
-import java.util.List;
 
 public interface ArticleTypeRepository extends CrudRepository<ArticleTypeEntity, Integer> {
 

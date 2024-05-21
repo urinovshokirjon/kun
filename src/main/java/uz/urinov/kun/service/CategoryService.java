@@ -6,6 +6,7 @@ import uz.urinov.kun.dto.CategoryCreateDto;
 import uz.urinov.kun.dto.CategoryResponseDto;
 import uz.urinov.kun.entity.CategoryEntity;
 import uz.urinov.kun.enums.LanguageEnum;
+import uz.urinov.kun.enums.Result;
 import uz.urinov.kun.exp.AppBadException;
 import uz.urinov.kun.mapper.CategoryMapper;
 import uz.urinov.kun.repository.CategoryRepository;
@@ -31,14 +32,14 @@ public class CategoryService {
     }
 
     // 2. Update category
-    public Boolean updateCategory(int id, CategoryCreateDto categoryDto) {
+    public Result updateCategory(int id, CategoryCreateDto categoryDto) {
         CategoryEntity categoryEntity = getCategoryEntityById(id);
         categoryEntity.setOrderNumber(categoryDto.getOrderNumber());
         categoryEntity.setNameUz(categoryDto.getNameUz());
         categoryEntity.setNameRu(categoryDto.getNameRu());
         categoryEntity.setNameEn(categoryDto.getNameEn());
         categoryRepository.save(categoryEntity);
-        return true;
+        return new Result("CategoryEntity uodate",true);
     }
 
     // 3. Category list
@@ -53,10 +54,10 @@ public class CategoryService {
     }
 
     //4. Category delete
-    public Boolean deleteRegion(int id) {
+    public Result deleteRegion(int id) {
         CategoryEntity categoryEntity = getCategoryEntityById(id);
         categoryRepository.delete(categoryEntity);
-        return true;
+        return new Result("CategoryEntity delete",true);
     }
     // 5. Category By Lang
     public List<CategoryResponseDto> getCategoryByLang(LanguageEnum lang) {

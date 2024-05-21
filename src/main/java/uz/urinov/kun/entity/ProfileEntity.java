@@ -48,5 +48,4 @@ public class ProfileEntity {
     @Column(name = "photo_id",unique = true)
     private Integer photoId;
 
-
 }
