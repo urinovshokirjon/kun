@@ -5,10 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.urinov.kun.dto.auth.RegistrationDTO;
-import uz.urinov.kun.entity.ProfileEntity;
 import uz.urinov.kun.service.AuthService;
-
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/auth")
