@@ -6,7 +6,6 @@ import lombok.Setter;
 import uz.urinov.kun.enums.ProfileRole;
 import uz.urinov.kun.enums.ProfileStatus;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Setter
@@ -39,6 +38,8 @@ public class ProfileEntity {
 
     @Enumerated(EnumType.STRING)
     private ProfileRole role;
+
+    private String emailCode;
 
     @Column(name = "visible")
     private Boolean visible=Boolean.TRUE;

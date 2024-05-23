@@ -1,18 +1,10 @@
 package uz.urinov.kun.dto;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import uz.urinov.kun.enums.ProfileRole;
-import uz.urinov.kun.enums.ProfileStatus;
-
-import java.time.LocalDate;
 
 @Getter
 @Setter

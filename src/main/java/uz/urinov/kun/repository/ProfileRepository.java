@@ -5,6 +5,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 import uz.urinov.kun.entity.ProfileEntity;
 
+import java.util.Optional;
+
 public interface ProfileRepository extends CrudRepository<ProfileEntity, Integer> {
 
     Boolean existsByPhoneOrEmail(String phone, String email);
@@ -12,4 +14,11 @@ public interface ProfileRepository extends CrudRepository<ProfileEntity, Integer
 
     // 4. Profile List (ADMIN) (Pagination)
     Page<ProfileEntity> findAllByVisibleTrueOrderById( Pageable pageable);
+
+    // Profile registration
+    Optional<ProfileEntity> findByEmailAndEmailCode(String email, String emailCode);
+
+    // Profile login
+    Optional<ProfileEntity> findByEmailAndPasswordAndVisibleTrue(String email, String password);
+
 }
