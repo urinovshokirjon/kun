@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Setter
 @Getter
@@ -27,7 +28,7 @@ public class ProfileResponseDTO {
 
     private Boolean visible;
 
-    private LocalDate createDate;
+    private LocalDateTime createDate;
 
     private Integer photoId;
 }

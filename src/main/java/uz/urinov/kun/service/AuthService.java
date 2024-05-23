@@ -4,8 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uz.urinov.kun.dto.ProfileCreateDTO;
 import uz.urinov.kun.entity.ProfileEntity;
+import uz.urinov.kun.enums.ProfileRole;
+import uz.urinov.kun.enums.ProfileStatus;
 import uz.urinov.kun.enums.Result;
 import uz.urinov.kun.repository.ProfileRepository;
+import uz.urinov.kun.util.MD5Util;
+
+import java.time.LocalDateTime;
 
 @Service
 public class AuthService {
@@ -25,9 +30,12 @@ public class AuthService {
 
         entity.setCreateDate(LocalDateTime.now());
         entity.setRole(ProfileRole.ROLE_USER);
-        entity.setStatus(ProfileStatus.INACTIVE);
+        entity.setStatus(ProfileStatus.ROLE_INACTIVE);
 
         profileRepository.save(entity);
 
     }
+
+
+
 }

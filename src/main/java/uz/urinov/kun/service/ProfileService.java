@@ -37,8 +37,8 @@ public class ProfileService {
         profileEntity.setPhone(profileCreateDTO.getPhone());
         profileEntity.setEmail(profileCreateDTO.getEmail());
         profileEntity.setPassword(profileCreateDTO.getPassword());
-        profileEntity.setStatus(ProfileStatus.INACTIVE);
-        profileEntity.setRole(ProfileRole.USER);
+        profileEntity.setStatus(ProfileStatus.ROLE_INACTIVE);
+        profileEntity.setRole(ProfileRole.ROLE_USER);
         profileRepository.save(profileEntity);
         return new Result("Foydalanuvchi yaratildi",true);
     }

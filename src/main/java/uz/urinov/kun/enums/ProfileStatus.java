@@ -1,5 +1,5 @@
 package uz.urinov.kun.enums;
 
 public enum ProfileStatus {
-    ACTIVE, BLOCKED, INACTIVE
+    ROLE_ACTIVE, ROLE_BLOCKED, ROLE_INACTIVE
 }
