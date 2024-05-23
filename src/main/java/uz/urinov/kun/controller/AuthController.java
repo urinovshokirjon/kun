@@ -25,4 +25,10 @@ public class AuthController {
         return ResponseEntity.ok().body(body);
     }
 
+    @GetMapping("/registration/resend/{email}")
+    public ResponseEntity<String> registrationResend(@PathVariable("email") String email) {
+        String body = authService.registrationResend(email);
+        return ResponseEntity.ok().body(body);
+    }
+
 }

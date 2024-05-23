@@ -6,7 +6,6 @@ import lombok.Setter;
 import uz.urinov.kun.enums.ProfileRole;
 import uz.urinov.kun.enums.ProfileStatus;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -44,7 +43,7 @@ public class ProfileEntity {
     private Boolean visible=Boolean.TRUE;
 
     @Column(name = "create_date")
-    private LocalDateTime createDate=LocalDateTime.now();
+    private LocalDateTime createdDate =LocalDateTime.now();
 
     @Column(name = "photo_id",unique = true)
     private Integer photoId;
