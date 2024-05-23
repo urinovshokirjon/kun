@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import uz.urinov.kun.dto.ProfileCreateDTO;
 import uz.urinov.kun.enums.Result;
 import uz.urinov.kun.service.AuthService;
 
@@ -17,7 +18,7 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("/registration")
-    public ResponseEntity<Result> registration(@Valid @RequestBody RegistrationDTO dto) {
+    public ResponseEntity<Result> registration(@Valid @RequestBody ProfileCreateDTO dto) {
         Result result = authService.registration(dto);
         return ResponseEntity.ok().body(result);
     }
