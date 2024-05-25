@@ -13,6 +13,7 @@ import uz.urinov.kun.entity.SmsHistoryEntity;
 import uz.urinov.kun.enums.ProfileRole;
 import uz.urinov.kun.enums.ProfileStatus;
 import uz.urinov.kun.enums.Result;
+import uz.urinov.kun.exp.AppBadException;
 import uz.urinov.kun.repository.EmailHistoryRepository;
 import uz.urinov.kun.repository.ProfileRepository;
 import uz.urinov.kun.repository.SmsHistoryRepository;
@@ -32,9 +33,13 @@ public class AuthService {
     @Autowired
     private EmailHistoryRepository emailHistoryRepository;
     @Autowired
+    private EmailHistoryService emailHistoryService;
+    @Autowired
     private SmsService smsService;
     @Autowired
     private SmsHistoryRepository smsHistoryRepository;
+    @Autowired
+    private SmsHistoryService smsHistoryService;
 
     // Profile registration Email
     public Result registrationEmail(ProfileCreateDTO dto) {
@@ -56,11 +61,7 @@ public class AuthService {
 //         Emailga sms yuborish methodini chaqiramiz;
         String emailCode = UUID.randomUUID().toString();
         sendEmail(entity.getEmail(), emailCode);
-        EmailHistoryEntity emailHistoryEntity = new EmailHistoryEntity();
-        emailHistoryEntity.setMessage(emailCode);
-        emailHistoryEntity.setEmail(entity.getEmail());
-        emailHistoryEntity.setCreateDate(LocalDateTime.now());
-        emailHistoryRepository.save(emailHistoryEntity);
+
 
         return new Result("Muvaffaqiyatli ro'yxatdan o'tdingiz. Akkounting ACTIVE qilish uchun email code tasdiqlang", true);
 
@@ -81,6 +82,24 @@ public class AuthService {
         profileEntity.setStatus(ProfileStatus.ROLE_ACTIVE);
         profileRepository.save(profileEntity);
         return new Result("Akkound tasdiqlandi", true);
+    }
+    // Resent Email code
+    public Result verificationResendEmail(String email) {
+
+        Optional<ProfileEntity> profileEntityOptional = profileRepository.findByEmailAndVisibleTrue(email);
+        if (profileEntityOptional.isEmpty()) {
+            throw new AppBadException("Email not exists");
+        }
+
+        ProfileEntity profileEntity = profileEntityOptional.get();
+
+        if (!profileEntity.getVisible() || !profileEntity.getStatus().equals(ProfileStatus.ROLE_INACTIVE)) {
+            throw new AppBadException("Registration not completed");
+        }
+        emailHistoryService.checkEmailLimit(profileEntity.getEmail());
+        String emailCode = UUID.randomUUID().toString();
+        sendEmail(profileEntity.getEmail(), emailCode);
+        return new Result("To complete your registration please verify your email.",true);
     }
 
     // Profile registration Sms
@@ -105,11 +124,6 @@ public class AuthService {
            String message = RandomUtil.getRandomSmsCode();
         String smsCode = "Bu Eskiz dan test";
         smsService.sendSms(dto.getPhone(), smsCode);
-        SmsHistoryEntity smsHistoryEntity = new SmsHistoryEntity();
-        smsHistoryEntity.setPhone(dto.getPhone());
-        smsHistoryEntity.setSmsCode(smsCode);
-        smsHistoryEntity.setCreateDate(LocalDateTime.now());
-        smsHistoryRepository.save(smsHistoryEntity);
         return new Result("Muvaffaqiyatli ro'yxatdan o'tdingiz. Akkounting ACTIVE qilish uchun telefoningizga borgan sms code tasdiqlang", true);
 
     }
@@ -130,6 +144,26 @@ public class AuthService {
         return new Result("Profile ACTIVE holatga o'tdi",true);
     }
 
+    // Resent sms code
+    public Result verificationResendSms(String phone) {
+
+        Optional<ProfileEntity> profileEntityOptional = profileRepository.findByPhoneAndVisibleTrue(phone);
+        if (profileEntityOptional.isEmpty()) {
+            throw new AppBadException("Phone not exists");
+        }
+
+        ProfileEntity profileEntity = profileEntityOptional.get();
+
+        if (!profileEntity.getVisible() || !profileEntity.getStatus().equals(ProfileStatus.ROLE_INACTIVE)) {
+            throw new AppBadException("Registration not completed");
+        }
+        smsHistoryService.checkEmailLimit(profileEntity.getPhone());
+        String emailCode = UUID.randomUUID().toString();
+        smsService.sendSms(profileEntity.getPhone(), emailCode);
+        return new Result("To complete your registration please verify your email.",true);
+    }
+
+
     // Profile login
     public Result loginProfile(LoginDto loginDto) {
         String password = MD5Util.getMD5(loginDto.getPassword());
@@ -140,6 +174,12 @@ public class AuthService {
         return new Result("Sahifangizga hush kelibsiz "+profileEntityOptional.get().getName()+" " + profileEntityOptional.get().getSurname(), true);
     }
 
+
+
+
+
+
+    // Profile sendEmail
     public void sendEmail(String sendingEmail, String emailCode) {
         try {
             MimeMessage msg = javaMailSender.createMimeMessage();
@@ -148,12 +188,6 @@ public class AuthService {
             helper = new MimeMessageHelper(msg, true);
             helper.setTo(sendingEmail);
             helper.setSubject("Accountni tasdiqlash");
-
-//            SimpleMailMessage message = new SimpleMailMessage();
-//            message.setFrom("Dasturlash@gmail.uz");
-//            message.setTo(sendingEmail);
-//            message.setSubject("Accountni tasdiqlash");
-////            message.setText("<a href='http://localhost:8080/auth/verifyEmail?emailCode=" + emailCode + "&email=" + sendingEmail + "'>Tasdiqlang</a>");
 
             String formatText = "<style>\n" +
                     "    a:link, a:visited {\n" +
@@ -180,10 +214,9 @@ public class AuthService {
 //            String url = "http://192.168.1.251:8080/auth/verifyEmail?emailCode=" + emailCode + "&email=" + sendingEmail;
             String url = "http://localhost:8080/auth/verifyEmail?emailCode=" + emailCode + "&email=" + sendingEmail;
             String text = String.format(formatText, url);
-//            message.setText(text);
-//            javaMailSender.send(message);
             helper.setText(text, true);
             javaMailSender.send(msg);
+            emailHistoryService.createEmailHistory(emailCode,sendingEmail);
         } catch (Exception e) {
             e.printStackTrace();
         }

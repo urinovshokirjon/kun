@@ -33,7 +33,12 @@ public class AuthController {
         Result result=authService.verifyEmail(emailCode,email);
         return ResponseEntity.status(result.isSuccess()?200:409).body(result);
     }
-    //
+    // Resent Email code
+    @GetMapping("/verification/resendEmail/{email}")
+    public ResponseEntity<Result> verificationResendEmail(@PathVariable String email) {
+        Result result=authService.verificationResendEmail(email);
+        return ResponseEntity.status(result.isSuccess()?200:409).body(result);
+    }
 
     // Profile verifySms
     @GetMapping("/verifySms")
@@ -46,6 +51,12 @@ public class AuthController {
     public HttpEntity<?> loginUser(@RequestBody LoginDto loginDto) {
         Result result=authService.loginProfile(loginDto);
         return ResponseEntity.status(result.isSuccess() ? 200 : 409).body(result);
+    }
+    // Resent sms code
+    @GetMapping("/verification/resendSma/{phone}")
+    public ResponseEntity<Result> verificationResendSms(@PathVariable String phone) {
+        Result result=authService.verificationResendSms(phone);
+        return ResponseEntity.status(result.isSuccess()?200:409).body(result);
     }
 
 

@@ -3,6 +3,7 @@ package uz.urinov.kun.service;
 
 import okhttp3.*;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import uz.urinov.kun.util.RandomUtil;
@@ -21,10 +22,14 @@ public class SmsService {
     @Value("${my.eskiz.uz.password}")
     private String myEskizUzPassword;
 
+    @Autowired
+    private SmsHistoryService smsHistoryService;
+
     public void sendSms(String phone, String message) {
 //        String code = RandomUtil.getRandomSmsCode();
 //        String message = "YouGo ilovasiga ro'yxatdan o'tishning tasdiqlash kodi: " + code;
         send(phone, message);
+        smsHistoryService.createSmsHistory(message,phone);
 
     }
 

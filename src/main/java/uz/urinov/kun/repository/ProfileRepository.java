@@ -21,6 +21,12 @@ public interface ProfileRepository extends CrudRepository<ProfileEntity, Integer
     // Profile login
     Optional<ProfileEntity> findByEmailAndPasswordAndVisibleTrue(String email, String password);
 
+    // Profile verifySms
     Optional<ProfileEntity> findByPhone(String phone);
+
+    // Resent Email code
+    Optional<ProfileEntity> findByEmailAndVisibleTrue(String email);
+    Optional<ProfileEntity> findByPhoneAndVisibleTrue(String phone);
+
 
 }
