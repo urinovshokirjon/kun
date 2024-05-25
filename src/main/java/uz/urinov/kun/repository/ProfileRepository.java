@@ -16,9 +16,11 @@ public interface ProfileRepository extends CrudRepository<ProfileEntity, Integer
     Page<ProfileEntity> findAllByVisibleTrueOrderById( Pageable pageable);
 
     // Profile registration
-    Optional<ProfileEntity> findByEmailAndEmailCode(String email, String emailCode);
+    Optional<ProfileEntity> findByEmail(String email);
 
     // Profile login
     Optional<ProfileEntity> findByEmailAndPasswordAndVisibleTrue(String email, String password);
+
+    Optional<ProfileEntity> findByPhone(String phone);
 
 }

@@ -1,14 +1,36 @@
-### 1. Profile Auth Registration
-POST http://localhost:8080/auth/registration
+### 1. Profile Auth Registration Email
+POST http://localhost:8080/auth/registrationEmail
+Content-Type: application/json
+
+{
+  "name": "Vali",
+  "surname": "Valiyev",
+  "email": "urinovshokirjon93@gmail.com",
+  "phone": "998941785150",
+  "password": "12345"
+}
+
+### urinovshokirjon93@gmail.com
+### urinovgayratjon@gmail.com
+
+### 2. Profile Auth Registration Sms
+POST http://localhost:8080/auth/registrationSms
 Content-Type: application/json
 
 {
   "name": "Ali",
   "surname": "Aliyev",
-  "email": "urinovshokirjon93@gmail.com",
-  "phone": "998941785150",
-  "password": "12345"
+  "email": "urinovgayratjon@gmail.com",
+  "phone": "998946740298",
+  "password": "123"
 }
+
+<> 2024-05-25T105232.200.json
+
+### 2. Profile Auth VerifySms Sms
+GET http://localhost:8080/auth/verifySms?
+    smsCode=Bu Eskiz dan test&
+    phone=998946740298
 
 ### 2. Profile login
 POST http://localhost:8080/auth/login

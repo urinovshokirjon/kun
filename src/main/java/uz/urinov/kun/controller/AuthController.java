@@ -15,16 +15,30 @@ import uz.urinov.kun.service.AuthService;
 public class AuthController {
     @Autowired
     private AuthService authService;
-    // Profile registration
-    @PostMapping("/registration")
-    public ResponseEntity<Result> registration( @RequestBody ProfileCreateDTO dto) {
-        Result result = authService.registration(dto);
+    // Profile registration Email
+    @PostMapping("/registrationEmail")
+    public ResponseEntity<Result> registrationEmail( @RequestBody ProfileCreateDTO dto) {
+        Result result = authService.registrationEmail(dto);
+        return ResponseEntity.ok().body(result);
+    }
+    // Profile registration Sms
+    @PostMapping("/registrationSms")
+    public ResponseEntity<Result> registrationSms( @RequestBody ProfileCreateDTO dto) {
+        Result result = authService.registrationSms(dto);
         return ResponseEntity.ok().body(result);
     }
     // Profile verifyEmail
     @GetMapping("/verifyEmail")
-    public ResponseEntity<Result> verifyEmail(@RequestParam String emailCade, @RequestParam String email) {
-        Result result=authService.verifyEmail(emailCade,email);
+    public ResponseEntity<Result> verifyEmail(@RequestParam String emailCode, @RequestParam String email) {
+        Result result=authService.verifyEmail(emailCode,email);
+        return ResponseEntity.status(result.isSuccess()?200:409).body(result);
+    }
+    //
+
+    // Profile verifySms
+    @GetMapping("/verifySms")
+    public ResponseEntity<Result> verifySms(@RequestParam String smsCode, @RequestParam String phone) {
+        Result result=authService.verifySms(smsCode,phone);
         return ResponseEntity.status(result.isSuccess()?200:409).body(result);
     }
     // Profile login

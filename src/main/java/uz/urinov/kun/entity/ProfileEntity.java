@@ -39,8 +39,6 @@ public class ProfileEntity {
     @Enumerated(EnumType.STRING)
     private ProfileRole role;
 
-    private String emailCode;
-
     @Column(name = "visible")
     private Boolean visible=Boolean.TRUE;
 
