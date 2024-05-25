@@ -83,6 +83,7 @@ public class AuthService {
         profileRepository.save(profileEntity);
         return new Result("Akkound tasdiqlandi", true);
     }
+
     // Resent Email code
     public Result verificationResendEmail(String email) {
 
@@ -99,7 +100,7 @@ public class AuthService {
         emailHistoryService.checkEmailLimit(profileEntity.getEmail());
         String emailCode = UUID.randomUUID().toString();
         sendEmail(profileEntity.getEmail(), emailCode);
-        return new Result("To complete your registration please verify your email.",true);
+        return new Result("To complete your registration please verify your email.", true);
     }
 
     // Profile registration Sms
@@ -121,7 +122,7 @@ public class AuthService {
         profileRepository.save(entity);
         // Sms yuborish methodini chaqiramiz;
 
-           String message = RandomUtil.getRandomSmsCode();
+        String message = RandomUtil.getRandomSmsCode();
         String smsCode = "Bu Eskiz dan test";
         smsService.sendSms(dto.getPhone(), smsCode);
         return new Result("Muvaffaqiyatli ro'yxatdan o'tdingiz. Akkounting ACTIVE qilish uchun telefoningizga borgan sms code tasdiqlang", true);
@@ -129,19 +130,25 @@ public class AuthService {
     }
 
     // Profile verifySms
-    public Result verifySms(String smsCode, String phone) {
-        Optional<SmsHistoryEntity> smsHistoryEntityOptional = smsHistoryRepository.findBySmsCodeAndPhone(smsCode, phone);
+    public Result verifySms(String smsCode, String phone) { // 12345     915721213
+        Optional<SmsHistoryEntity> smsHistoryEntityOptional = smsHistoryRepository.findTopByPhoneOrderByCreateDateDesc(phone);
         if (smsHistoryEntityOptional.isEmpty()) {
-            return new Result("Telefon phone yoki smsCode noto'g'ri",false);
+            return new Result("Telefon phone yoki smsCode noto'g'ri", false);
+        }
+        if (!smsHistoryEntityOptional.get().getSmsCode().equals(smsCode)) {
+            return new Result("Telefon phone yoki smsCode noto'g'ri", false);
         }
         Optional<ProfileEntity> profileEntityOptional = profileRepository.findByPhone(phone);
         if (profileEntityOptional.isEmpty()) {
-            return new Result("Telefon phone yoki smsCode noto'g'ri",false);
+            return new Result("Telefon phone yoki smsCode noto'g'ri", false);
+        }
+        if (!profileEntityOptional.get().getStatus().equals(ProfileStatus.ROLE_INACTIVE)) {
+            return new Result("Telefon phone yoki smsCode noto'g'ri", false);
         }
         ProfileEntity profileEntity = profileEntityOptional.get();
         profileEntity.setStatus(ProfileStatus.ROLE_ACTIVE);
         profileRepository.save(profileEntity);
-        return new Result("Profile ACTIVE holatga o'tdi",true);
+        return new Result("Profile ACTIVE holatga o'tdi", true);
     }
 
     // Resent sms code
@@ -160,7 +167,7 @@ public class AuthService {
         smsHistoryService.checkEmailLimit(profileEntity.getPhone());
         String emailCode = UUID.randomUUID().toString();
         smsService.sendSms(profileEntity.getPhone(), emailCode);
-        return new Result("To complete your registration please verify your email.",true);
+        return new Result("To complete your registration please verify your email.", true);
     }
 
 
@@ -171,12 +178,8 @@ public class AuthService {
         if (profileEntityOptional.isEmpty()) {
             return new Result("Bunday password yoki email yo'q", false);
         }
-        return new Result("Sahifangizga hush kelibsiz "+profileEntityOptional.get().getName()+" " + profileEntityOptional.get().getSurname(), true);
+        return new Result("Sahifangizga hush kelibsiz " + profileEntityOptional.get().getName() + " " + profileEntityOptional.get().getSurname(), true);
     }
-
-
-
-
 
 
     // Profile sendEmail
@@ -216,13 +219,12 @@ public class AuthService {
             String text = String.format(formatText, url);
             helper.setText(text, true);
             javaMailSender.send(msg);
-            emailHistoryService.createEmailHistory(emailCode,sendingEmail);
+            emailHistoryService.createEmailHistory(emailCode, sendingEmail);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
-
 
 
 }
