@@ -10,6 +10,10 @@ Content-Type: application/json
   "password": "12345"
 }
 
+###
+###
+GET http://localhost:8080/auth/verification/resendEmail/urinovshokirjon93@gmail.com
+
 ### urinovshokirjon93@gmail.com
 ### urinovgayratjon@gmail.com
 
@@ -18,11 +22,11 @@ POST http://localhost:8080/auth/registrationSms
 Content-Type: application/json
 
 {
-  "name": "Ali",
-  "surname": "Aliyev",
-  "email": "urinovgayratjon@gmail.com",
-  "phone": "998946740298",
-  "password": "123"
+  "name": "Vali",
+  "surname": "Valiyev",
+  "email": "urinovshokirjon93@gmail.com",
+  "phone": "941785150",
+  "password": "12345"
 }
 
 <> 2024-05-25T105232.200.json

@@ -18,15 +18,8 @@ public class AuthController {
 
     // Profile registration Email
     @PostMapping("/registrationEmail")
-    public ResponseEntity<Result> registrationEmail(@RequestBody ProfileCreateDTO dto) {
+    public ResponseEntity<Result> registrationEmail(@Valid @RequestBody ProfileCreateDTO dto) {
         Result result = authService.registrationEmail(dto);
-        return ResponseEntity.ok().body(result);
-    }
-
-    // Profile registration Sms
-    @PostMapping("/registrationSms")
-    public ResponseEntity<Result> registrationSms(@RequestBody ProfileCreateDTO dto) {
-        Result result = authService.registrationSms(dto);
         return ResponseEntity.ok().body(result);
     }
 
@@ -44,10 +37,23 @@ public class AuthController {
         return ResponseEntity.status(result.isSuccess() ? 200 : 409).body(result);
     }
 
+    // Profile registration Sms
+    @PostMapping("/registrationSms")
+    public ResponseEntity<Result> registrationSms(@RequestBody ProfileCreateDTO dto) {
+        Result result = authService.registrationSms(dto);
+        return ResponseEntity.ok().body(result);
+    }
+
     // Profile verifySms
     @GetMapping("/verifySms")
     public ResponseEntity<Result> verifySms(@RequestParam String smsCode, @RequestParam String phone) {
         Result result = authService.verifySms(smsCode, phone);
+        return ResponseEntity.status(result.isSuccess() ? 200 : 409).body(result);
+    }
+    // Resent sms code
+    @GetMapping("/verification/resendSma/{phone}")
+    public ResponseEntity<Result> verificationResendSms(@PathVariable String phone) {
+        Result result = authService.verificationResendSms(phone);
         return ResponseEntity.status(result.isSuccess() ? 200 : 409).body(result);
     }
 
@@ -58,12 +64,7 @@ public class AuthController {
         return ResponseEntity.status(result.isSuccess() ? 200 : 409).body(result);
     }
 
-    // Resent sms code
-    @GetMapping("/verification/resendSma/{phone}")
-    public ResponseEntity<Result> verificationResendSms(@PathVariable String phone) {
-        Result result = authService.verificationResendSms(phone);
-        return ResponseEntity.status(result.isSuccess() ? 200 : 409).body(result);
-    }
+
 
 
 }

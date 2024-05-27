@@ -27,7 +27,7 @@ public class ProfileCreateDTO {
     @NotBlank(message = "Email bo'sh bo'lishi mumkin emas")
     private String phone;
 
-    @Email
+
     @Size(min = 4, max = 50, message = "Berilgan password uzunligi 3 va 50 orasida bo'lishi kerak")
     @NotBlank(message = "Password bo'sh bo'lishi mumkin emas")
     private String password;

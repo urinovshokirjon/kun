@@ -45,6 +45,9 @@ public class ProfileController {
         return ResponseEntity.status(result.isSuccess()? HttpStatus.OK:HttpStatus.CONFLICT).body(result);
     }
 
+    //  7. Filter (name,surname,phone,role,created_date_from,created_date_to)
+
+
 
 
 }
