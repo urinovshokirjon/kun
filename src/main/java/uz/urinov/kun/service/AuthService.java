@@ -56,9 +56,11 @@ public class AuthService {
 
         entity.setCreateDate(LocalDateTime.now());
         entity.setRole(ProfileRole.ROLE_USER);
-        entity.setStatus(ProfileStatus.ROLE_INACTIVE);
+        entity.setStatus(ProfileStatus.INACTIVE);
         profileRepository.save(entity);
+
 //         Emailga sms yuborish methodini chaqiramiz;
+
         String emailCode = UUID.randomUUID().toString();
         sendEmail(entity.getEmail(), emailCode);
 
@@ -79,7 +81,7 @@ public class AuthService {
             return new Result("Email yoki emailCode xato", false);
         }
         ProfileEntity profileEntity = profileEntityOptional.get();
-        profileEntity.setStatus(ProfileStatus.ROLE_ACTIVE);
+        profileEntity.setStatus(ProfileStatus.ACTIVE);
         profileRepository.save(profileEntity);
         return new Result("Akkound tasdiqlandi", true);
     }
@@ -94,7 +96,7 @@ public class AuthService {
 
         ProfileEntity profileEntity = profileEntityOptional.get();
 
-        if (!profileEntity.getVisible() || !profileEntity.getStatus().equals(ProfileStatus.ROLE_INACTIVE)) {
+        if (!profileEntity.getVisible() || !profileEntity.getStatus().equals(ProfileStatus.INACTIVE)) {
             throw new AppBadException("Registration not completed");
         }
         emailHistoryService.checkEmailLimit(profileEntity.getEmail());
@@ -118,8 +120,9 @@ public class AuthService {
 
         entity.setCreateDate(LocalDateTime.now());
         entity.setRole(ProfileRole.ROLE_USER);
-        entity.setStatus(ProfileStatus.ROLE_INACTIVE);
+        entity.setStatus(ProfileStatus.INACTIVE);
         profileRepository.save(entity);
+
         // Sms yuborish methodini chaqiramiz;
 
         String message = RandomUtil.getRandomSmsCode();
@@ -142,11 +145,11 @@ public class AuthService {
         if (profileEntityOptional.isEmpty()) {
             return new Result("Telefon phone yoki smsCode noto'g'ri", false);
         }
-        if (!profileEntityOptional.get().getStatus().equals(ProfileStatus.ROLE_INACTIVE)) {
+        if (!profileEntityOptional.get().getStatus().equals(ProfileStatus.INACTIVE)) {
             return new Result("Telefon phone yoki smsCode noto'g'ri", false);
         }
         ProfileEntity profileEntity = profileEntityOptional.get();
-        profileEntity.setStatus(ProfileStatus.ROLE_ACTIVE);
+        profileEntity.setStatus(ProfileStatus.ACTIVE);
         profileRepository.save(profileEntity);
         return new Result("Profile ACTIVE holatga o'tdi", true);
     }
@@ -161,7 +164,7 @@ public class AuthService {
 
         ProfileEntity profileEntity = profileEntityOptional.get();
 
-        if (!profileEntity.getVisible() || !profileEntity.getStatus().equals(ProfileStatus.ROLE_INACTIVE)) {
+        if (!profileEntity.getVisible() || !profileEntity.getStatus().equals(ProfileStatus.INACTIVE)) {
             throw new AppBadException("Registration not completed");
         }
         smsHistoryService.checkEmailLimit(profileEntity.getPhone());

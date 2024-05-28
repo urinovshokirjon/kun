@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.urinov.kun.dto.ProfileCreateDTO;
+import uz.urinov.kun.dto.ProfileFilterDTO;
 import uz.urinov.kun.dto.ProfileResponseDTO;
 import uz.urinov.kun.enums.Result;
 import uz.urinov.kun.service.ProfileService;
@@ -46,6 +47,14 @@ public class ProfileController {
     }
 
     //  7. Filter (name,surname,phone,role,created_date_from,created_date_to)
+    @PostMapping("page-filter")
+    public ResponseEntity<PageImpl<ProfileResponseDTO>> getProfilePageFilter(
+            @RequestParam("page") int page,
+            @RequestParam("size") int size,
+            @RequestBody ProfileFilterDTO profileFilterDTO){
+      PageImpl<ProfileResponseDTO> profileResponseDTOPage= profileService.getProfilePageFilter(page-1,size,profileFilterDTO);
+      return ResponseEntity.ok().body(profileResponseDTOPage);
+    }
 
 
 

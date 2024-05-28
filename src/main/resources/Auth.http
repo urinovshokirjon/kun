@@ -3,8 +3,8 @@ POST http://localhost:8080/auth/registrationEmail
 Content-Type: application/json
 
 {
-  "name": "Vali",
-  "surname": "Valiyev",
+  "name": "Ali",
+  "surname": "Aliyev",
   "email": "urinovshokirjon93@gmail.com",
   "phone": "998941785150",
   "password": "12345"
@@ -34,7 +34,7 @@ Content-Type: application/json
 ### 2. Profile Auth VerifySms Sms
 GET http://localhost:8080/auth/verifySms?
     smsCode=Bu Eskiz dan test&
-    phone=998946740298
+    phone=941785150
 
 ### 2. Profile login
 POST http://localhost:8080/auth/login

@@ -6,7 +6,9 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import uz.urinov.kun.dto.FilterResponseDTO;
 import uz.urinov.kun.dto.ProfileCreateDTO;
+import uz.urinov.kun.dto.ProfileFilterDTO;
 import uz.urinov.kun.dto.ProfileResponseDTO;
 import uz.urinov.kun.entity.ProfileEntity;
 import uz.urinov.kun.enums.ProfileRole;
@@ -14,7 +16,9 @@ import uz.urinov.kun.enums.ProfileStatus;
 import uz.urinov.kun.enums.Result;
 import uz.urinov.kun.exp.AppBadException;
 import uz.urinov.kun.repository.ProfileRepository;
+import uz.urinov.kun.repository.ProfileFilterRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,6 +26,8 @@ public class ProfileService {
 
     @Autowired
     private ProfileRepository profileRepository;
+    @Autowired
+    private ProfileFilterRepository profileFilterRepository;
 
     //  1. Create profile (ADMIN)
     public Result createProfile(ProfileCreateDTO profileCreateDTO) {
@@ -37,7 +43,7 @@ public class ProfileService {
         profileEntity.setPhone(profileCreateDTO.getPhone());
         profileEntity.setEmail(profileCreateDTO.getEmail());
         profileEntity.setPassword(profileCreateDTO.getPassword());
-        profileEntity.setStatus(ProfileStatus.ROLE_INACTIVE);
+        profileEntity.setStatus(ProfileStatus.INACTIVE);
         profileEntity.setRole(ProfileRole.ROLE_USER);
         profileRepository.save(profileEntity);
         return new Result("Foydalanuvchi yaratildi",true);
@@ -77,6 +83,20 @@ public class ProfileService {
         return new Result("Foydalanuvchi o'chirildi",true);
     }
 
+    //  7. Filter (name,surname,phone,role,created_date_from,created_date_to)
+    public PageImpl<ProfileResponseDTO> getProfilePageFilter(int page, int size, ProfileFilterDTO profileFilterDTO) {
+
+        List<ProfileResponseDTO> profileResponseDTOList=new ArrayList<>();
+
+        FilterResponseDTO<ProfileEntity> profileEntityFilterList=profileFilterRepository.getProfileFilterPage(profileFilterDTO,page,size);
+
+        for (ProfileEntity profileEntity : profileEntityFilterList.getContent()) {
+            ProfileResponseDTO profileResponseDTO = getProfileResponseDTO(profileEntity);
+            profileResponseDTOList.add(profileResponseDTO);
+        }
+        return new PageImpl<>(profileResponseDTOList,PageRequest.of(page,size),profileEntityFilterList.getTotalCount());
+    }
+
 
     public ProfileEntity getProfileById(int id) {
       return   profileRepository.findById(id).orElseThrow(()->{
@@ -96,6 +116,7 @@ public class ProfileService {
         profileResponseDTO.setCreateDate(profileEntity.getCreateDate());
         return profileResponseDTO;
     }
+
 
 
 }
