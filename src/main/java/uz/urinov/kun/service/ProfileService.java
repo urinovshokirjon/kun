@@ -6,10 +6,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import uz.urinov.kun.dto.FilterResponseDTO;
-import uz.urinov.kun.dto.ProfileCreateDTO;
-import uz.urinov.kun.dto.ProfileFilterDTO;
-import uz.urinov.kun.dto.ProfileResponseDTO;
+import uz.urinov.kun.dto.*;
 import uz.urinov.kun.entity.ProfileEntity;
 import uz.urinov.kun.enums.ProfileRole;
 import uz.urinov.kun.enums.ProfileStatus;
@@ -49,15 +46,31 @@ public class ProfileService {
         return new Result("Foydalanuvchi yaratildi",true);
     }
 
+    //  2. Update Profile (ADMIN)
+    public Boolean update(Integer id, ProfileCreateDTO profile) {
+        ProfileEntity profileEntity = getProfileById(id);
+        profileEntity.setName(profile.getName());
+        profileEntity.setSurname(profile.getSurname());
+        profileEntity.setStatus(profile.getStatus());
+        profileEntity.setRole(profile.getRole());
+
+//        profileEntity.setEmail(profile.getEmail());
+//        profileEntity.setPhone(profile.getPhone());
+//        profileEntity.setPassword(profile.getPassword());
+        profileRepository.save(profileEntity);
+        return true;
+    }
+
+
    // 3. Update Profile Detail (ANY) (Profile updates own details)
-    public Result updateProfileOwe(int id, ProfileCreateDTO profileCreateDTO) {
+    public Result updateProfileOwe(int id, ProfileUpdateDTO profileUpdateDTO) {
 
         ProfileEntity profileEntity = getProfileById(id);
-        profileEntity.setName(profileCreateDTO.getName());
-        profileEntity.setSurname(profileCreateDTO.getSurname());
-        profileEntity.setPhone(profileCreateDTO.getPhone());
-        profileEntity.setEmail(profileCreateDTO.getEmail());
-        profileEntity.setPassword(profileCreateDTO.getPassword());
+        profileEntity.setName(profileUpdateDTO.getName());
+        profileEntity.setSurname(profileUpdateDTO.getSurname());
+//        profileEntity.setPhone(profileUpdateDTO.getPhone());
+//        profileEntity.setEmail(profileCreateDTO.getEmail());
+//        profileEntity.setPassword(profileCreateDTO.getPassword());
         profileRepository.save(profileEntity);
         return new Result("Foydalanuvchi tahrirlandi",true);
 

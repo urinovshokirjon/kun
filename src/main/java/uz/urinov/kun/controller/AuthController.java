@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.urinov.kun.dto.LoginDto;
 import uz.urinov.kun.dto.ProfileCreateDTO;
+import uz.urinov.kun.dto.ProfileResponseDTO;
 import uz.urinov.kun.enums.Result;
 import uz.urinov.kun.service.AuthService;
 
@@ -59,9 +60,9 @@ public class AuthController {
 
     // Profile login
     @PostMapping("/login")
-    public HttpEntity<?> loginUser(@RequestBody LoginDto loginDto) {
-        Result result = authService.loginProfile(loginDto);
-        return ResponseEntity.status(result.isSuccess() ? 200 : 409).body(result);
+    public HttpEntity<ProfileResponseDTO> loginUser(@RequestBody LoginDto loginDto) {
+        ProfileResponseDTO result = authService.loginProfile(loginDto);
+        return ResponseEntity.ok().body(result);
     }
 
 

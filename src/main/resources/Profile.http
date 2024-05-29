@@ -13,8 +13,10 @@ Content-Type: application/json
 }
 
 ### 3. Update Profile Detail (ANY) (Profile updates own details)
-PUT http://localhost:8080/profile/update-own/7
+PUT http://localhost:8080/profile/update-own
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTY5MDkzODAsImlkIjoyLCJyb2xlIjoiUk9MRV9VU0VSIiwiZXhwIjoxNzE2OTk1Nzg4LCJpc3MiOiJLdW5VelRlc3QifQ.UkeU82o7UHVA581mlwCsvzAkRDuMZcPEWF1ArSe7rm9ns40u12tVP8UrP4UTfkPTrR9PSvtrA44XDwq_nbcXcQ
+
 
 {
   "name": "Temur",

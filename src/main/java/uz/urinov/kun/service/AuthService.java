@@ -7,6 +7,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import uz.urinov.kun.dto.LoginDto;
 import uz.urinov.kun.dto.ProfileCreateDTO;
+import uz.urinov.kun.dto.ProfileResponseDTO;
 import uz.urinov.kun.entity.EmailHistoryEntity;
 import uz.urinov.kun.entity.ProfileEntity;
 import uz.urinov.kun.entity.SmsHistoryEntity;
@@ -17,6 +18,7 @@ import uz.urinov.kun.exp.AppBadException;
 import uz.urinov.kun.repository.EmailHistoryRepository;
 import uz.urinov.kun.repository.ProfileRepository;
 import uz.urinov.kun.repository.SmsHistoryRepository;
+import uz.urinov.kun.util.JWTUtil;
 import uz.urinov.kun.util.MD5Util;
 import uz.urinov.kun.util.RandomUtil;
 
@@ -175,13 +177,22 @@ public class AuthService {
 
 
     // Profile login
-    public Result loginProfile(LoginDto loginDto) {
+    public ProfileResponseDTO loginProfile(LoginDto loginDto) {
         String password = MD5Util.getMD5(loginDto.getPassword());
         Optional<ProfileEntity> profileEntityOptional = profileRepository.findByEmailAndPasswordAndVisibleTrue(loginDto.getUsername(), password);
         if (profileEntityOptional.isEmpty()) {
-            return new Result("Bunday password yoki email yo'q", false);
+            return null;
         }
-        return new Result("Sahifangizga hush kelibsiz " + profileEntityOptional.get().getName() + " " + profileEntityOptional.get().getSurname(), true);
+        ProfileEntity profileEntity = profileEntityOptional.get();
+        ProfileResponseDTO profileResponseDTO = new ProfileResponseDTO();
+        profileResponseDTO.setId(profileEntity.getId());
+        profileResponseDTO.setEmail(profileEntity.getEmail());
+        profileResponseDTO.setPhone(profileEntity.getPhone());
+        profileResponseDTO.setRole(profileEntity.getRole().toString());
+        profileResponseDTO.setStatus(profileEntity.getStatus().toString());
+        profileResponseDTO.setJwt(JWTUtil.encode(profileEntity.getId(),profileEntity.getRole()));
+       return profileResponseDTO;
+
     }
 
 

@@ -31,4 +31,6 @@ public class ProfileResponseDTO {
     private LocalDateTime createDate;
 
     private Integer photoId;
+
+    private String jwt;
 }
