@@ -1,12 +1,12 @@
 package uz.urinov.kun.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import uz.urinov.kun.enums.ArticleStatus;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Setter
@@ -20,9 +20,10 @@ public class ArticleEntity {
 
     private String title;   // Yangilikning nomi
 
-    private String description;
+    private String description; /// Yangilik haqida qisqacha malumot
 
-    private String content;
+    @Column(columnDefinition = "text")
+    private String content;       ///Malumotni to'liq qismi
 
     private Integer shared_count;  // Yangilikni ulashilganlar soni
 
@@ -31,27 +32,30 @@ public class ArticleEntity {
     private Integer image_id;      // Yangilikni rasmining Id si
 
     @Column(name = "create_date")
-    private LocalDateTime createDate=LocalDateTime.now();  // Yangilikni yozilgan vaqti
+    private LocalDateTime createDate = LocalDateTime.now();  // Yangilikni yozilgan vaqti
 
     @Column(name = "published_date")
-    private LocalDateTime published_date;                 // Yangilik tahrir(tekshiruv)dan o'tgan va hammaga ko'rsatilgan vaqti
+    private LocalDateTime published_date;             // Yangilik tahrir(tekshiruv)dan o'tgan va hammaga ko'rsatilgan vaqti
 
     @Column(name = "visible")
-    private Boolean visible=Boolean.TRUE;
+    private Boolean visible = Boolean.TRUE;
 
     @ManyToOne
-    private RegionEntity regionId;                   // BU yangilik qayer(region) da sodir bo'ldi
+    private RegionEntity region;                      // BU yangilik qayer(region) da sodir bo'ldi
 
     @ManyToOne
-    private CategoryEntity categoryId;              // BU yangilik qanday category ga tegishli  bo'ladi
+    private CategoryEntity category;                  // BU yangilik qanday category ga tegishli  bo'ladi
 
     @ManyToOne
-    private ProfileEntity moderatorId;                  // Yangilikni yozgan odam
+    private ProfileEntity moderator;                  // Yangilikni yozgan odam
 
     @ManyToOne
-    private ProfileEntity publisherId;                  // Yangilikni tahrir(tekshirgan) odam
+    private ProfileEntity publisher;                  // Yangilikni tahrir(tekshirgan) odam
+
+    @OneToMany
+    private List<ArticleTypeEntity> articleType;
 
     @Enumerated(EnumType.STRING)
-    private ArticleStatus status;
+    private ArticleStatus status = ArticleStatus.NOT_PUBLISHED;
 
 }
