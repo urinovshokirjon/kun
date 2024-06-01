@@ -23,53 +23,61 @@ public class CategoryController {
     private CategoryService categoryService;
 
     // 1. Create category (ADMIN)
-    @PostMapping("/create")
-    public ResponseEntity<CategoryResponseDto> createCategory(@RequestBody CategoryCreateDto categoryDto,
-                                                              @RequestHeader("Authorization") String token) {
+    @PostMapping("/adm/create")
+    public ResponseEntity<CategoryResponseDto> createCategory(@RequestBody CategoryCreateDto categoryDto) {
 
-        JwtDTO dto = SecurityUtil.getJwtDTO(token);
-        if (!dto.getRole().equals(ProfileRole.ROLE_ADMIN)) {
-            throw new AppForbiddenException("Kechirasiz sizda bunday huquq yo'q");
-        }
+
+//        @RequestHeader("Authorization") String token
+//        JwtDTO dto = SecurityUtil.getJwtDTO(token);
+//        if (!dto.getRole().equals(ProfileRole.ROLE_ADMIN)) {
+//            throw new AppForbiddenException("Kechirasiz sizda bunday huquq yo'q");
+//        }
+
         CategoryResponseDto result = categoryService.createCategory(categoryDto);
         return ResponseEntity.ok().body(result);
     }
 
     // 2. Update category (ADMIN)
-    @PutMapping("/update/{id}")
+    @PutMapping("/adm/update/{id}")
     public ResponseEntity<Result> updateCategory(@PathVariable int id,
-                                                 @RequestBody CategoryCreateDto categoryDto,
-                                                 @RequestHeader("Authorization") String token) {
+                                                 @RequestBody CategoryCreateDto categoryDto) {
 
-        JwtDTO dto = SecurityUtil.getJwtDTO(token);
-        if (!dto.getRole().equals(ProfileRole.ROLE_ADMIN)) {
-            throw new AppForbiddenException("Kechirasiz sizda bunday huquq yo'q");
-        }
+
+//        @RequestHeader("Authorization") String token
+//        JwtDTO dto = SecurityUtil.getJwtDTO(token);
+//        if (!dto.getRole().equals(ProfileRole.ROLE_ADMIN)) {
+//            throw new AppForbiddenException("Kechirasiz sizda bunday huquq yo'q");
+//        }
+
         Result result = categoryService.updateCategory(id, categoryDto);
         return ResponseEntity.status(result.isSuccess()?HttpStatus.OK:HttpStatus.CONFLICT).body(result);
     }
 
     // 3. Category list (ADMIN)
-    @GetMapping("/list")
-    public ResponseEntity<List<CategoryResponseDto>> getCategoryList(@RequestHeader("Authorization") String token) {
+    @GetMapping("/adm/list")
+    public ResponseEntity<List<CategoryResponseDto>> getCategoryList() {
 
-        JwtDTO dto = SecurityUtil.getJwtDTO(token);
-        if (!dto.getRole().equals(ProfileRole.ROLE_ADMIN)) {
-            throw new AppForbiddenException("Kechirasiz sizda bunday huquq yo'q");
-        }
+//        @RequestHeader("Authorization") String token
+//        JwtDTO dto = SecurityUtil.getJwtDTO(token);
+//        if (!dto.getRole().equals(ProfileRole.ROLE_ADMIN)) {
+//            throw new AppForbiddenException("Kechirasiz sizda bunday huquq yo'q");
+//        }
+
       List<CategoryResponseDto> categoryDtoList=categoryService.getCategoryList();
       return ResponseEntity.status(HttpStatus.OK).body(categoryDtoList);
     }
 
     // 4. Delete category (ADMIN)
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Result> deleteRegion( @PathVariable int id,
-                                                @RequestHeader("Authorization") String token) {
+    @DeleteMapping("/adm/delete/{id}")
+    public ResponseEntity<Result> deleteRegion( @PathVariable int id) {
 
-        JwtDTO dto = SecurityUtil.getJwtDTO(token);
-        if (!dto.getRole().equals(ProfileRole.ROLE_ADMIN)) {
-            throw new AppForbiddenException("Kechirasiz sizda bunday huquq yo'q");
-        }
+
+//        @RequestHeader("Authorization") String token
+//        JwtDTO dto = SecurityUtil.getJwtDTO(token);
+//        if (!dto.getRole().equals(ProfileRole.ROLE_ADMIN)) {
+//            throw new AppForbiddenException("Kechirasiz sizda bunday huquq yo'q");
+//        }
+
         Result result = categoryService.deleteRegion(id);
         return ResponseEntity.status(result.isSuccess()?HttpStatus.OK:HttpStatus.CONFLICT).body(result);
     }

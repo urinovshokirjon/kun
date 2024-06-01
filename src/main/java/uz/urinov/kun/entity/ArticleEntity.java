@@ -15,44 +15,54 @@ import java.util.UUID;
 @Table(name = "article")
 public class ArticleEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID uuid;
+    @GeneratedValue
+    private UUID id;
 
-    private String title;   // Yangilikning nomi
+    @Column(name = "title")      //   :)  davayyyyyyyyyy
+    private String title;       // Yangilikning nomi
 
-    private String description; /// Yangilik haqida qisqacha malumot
+    @Column(name = "description")
+    private String description; //  Yangilik haqida qisqacha malumot
 
     @Column(columnDefinition = "text")
-    private String content;       ///Malumotni to'liq qismi
+    private String content;       // Malumotni to'liq qismi
 
-    private Integer shared_count;  // Yangilikni ulashilganlar soni
+    @Column(name = "shared_count")
+    private Integer sharedCount;  // Yangilikni ulashilganlar soni
 
-    private Integer view_count;    // Yangilikni ko'rilganlar soni
+    @Column(name = "view_count")
+    private Integer viewCount;    // Yangilikni ko'rilganlar soni
 
-    private Integer image_id;      // Yangilikni rasmining Id si
+    @Column(name = "image_id")
+    private Integer imageId;      // Yangilikni rasmining Id si
 
     @Column(name = "create_date")
     private LocalDateTime createDate = LocalDateTime.now();  // Yangilikni yozilgan vaqti
 
     @Column(name = "published_date")
-    private LocalDateTime published_date;             // Yangilik tahrir(tekshiruv)dan o'tgan va hammaga ko'rsatilgan vaqti
+    private LocalDateTime publishedDate;             // Yangilik tahrir(tekshiruv)dan o'tgan va hammaga ko'rsatilgan vaqti
 
     @Column(name = "visible")
     private Boolean visible = Boolean.TRUE;
 
     @ManyToOne
+    @JoinColumn(name = "region_id")
     private RegionEntity region;                      // BU yangilik qayer(region) da sodir bo'ldi
 
     @ManyToOne
+    @JoinColumn(name = "category_id")
     private CategoryEntity category;                  // BU yangilik qanday category ga tegishli  bo'ladi
 
     @ManyToOne
+    @JoinColumn(name = "moderator_id")
     private ProfileEntity moderator;                  // Yangilikni yozgan odam
 
     @ManyToOne
+    @JoinColumn(name = "publisher_id")
     private ProfileEntity publisher;                  // Yangilikni tahrir(tekshirgan) odam
 
     @OneToMany
+    @JoinColumn(name = "articleTypes")
     private List<ArticleTypeEntity> articleType;
 
     @Enumerated(EnumType.STRING)

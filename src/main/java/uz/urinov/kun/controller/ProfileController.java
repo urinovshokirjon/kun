@@ -1,5 +1,6 @@
 package uz.urinov.kun.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageImpl;
@@ -11,6 +12,7 @@ import uz.urinov.kun.enums.ProfileRole;
 import uz.urinov.kun.enums.Result;
 import uz.urinov.kun.exp.AppForbiddenException;
 import uz.urinov.kun.service.ProfileService;
+import uz.urinov.kun.util.HttpRequestUtil;
 import uz.urinov.kun.util.JWTUtil;
 import uz.urinov.kun.util.SecurityUtil;
 
@@ -23,14 +25,19 @@ public class ProfileController {
     //  1. Create profile (ADMIN)
     @PostMapping("/create")
     public ResponseEntity<Result> createProfile(@RequestBody ProfileCreateDTO profileCreateDTO,
-                                                @RequestHeader("Authorization") String token){
-        SecurityUtil.getJwtDTO(token, ProfileRole.ROLE_ADMIN);
+                                                @RequestHeader("Authorization") String token,
+                                                HttpServletRequest request){
+//        SecurityUtil.getJwtDTO(token, ProfileRole.ROLE_ADMIN);
+        JwtDTO jwtDTO = HttpRequestUtil.getJwtDTO(request, ProfileRole.ROLE_ADMIN);
         Result result =profileService.createProfile(profileCreateDTO);
         return ResponseEntity.status(result.isSuccess()? HttpStatus.CREATED:HttpStatus.BAD_REQUEST).body(result);
     }
     //  2. Update Profile (ADMIN)
     @PutMapping("/update/{id}")
-    public ResponseEntity<Boolean> update(@PathVariable("id") Integer id, @Valid @RequestBody ProfileCreateDTO profile) {
+    public ResponseEntity<Boolean> update(@PathVariable("id") Integer id,
+                                          @Valid @RequestBody ProfileCreateDTO profile,
+                                          @RequestHeader("Authorization") String token) {
+        SecurityUtil.getJwtDTO(token, ProfileRole.ROLE_ADMIN);
         profileService.update(id, profile);
         return ResponseEntity.ok().body(true);
     }
