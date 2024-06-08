@@ -190,7 +190,7 @@ public class AuthService {
         profileResponseDTO.setPhone(profileEntity.getPhone());
         profileResponseDTO.setRole(profileEntity.getRole().toString());
         profileResponseDTO.setStatus(profileEntity.getStatus().toString());
-        profileResponseDTO.setJwt(JWTUtil.encode(profileEntity.getId(),profileEntity.getRole()));
+        profileResponseDTO.setJwt(JWTUtil.encode(profileEntity.getId(),profileEntity.getEmail(),profileEntity.getRole()));
        return profileResponseDTO;
 
     }

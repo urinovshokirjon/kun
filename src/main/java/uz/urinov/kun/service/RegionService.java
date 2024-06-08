@@ -19,7 +19,7 @@ public class RegionService {
     @Autowired
     private RegionRepository regionRepository;
 
-    // 1. Region create
+    // 1. Region create (ADMIN)
     public RegionResponseDTO createRegion(RegionCreateDTO createDTO) {
         RegionEntity entity = new RegionEntity();
         entity.setOrderNumber(createDTO.getOrderNumber());

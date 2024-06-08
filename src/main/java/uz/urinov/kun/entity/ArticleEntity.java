@@ -3,6 +3,7 @@ package uz.urinov.kun.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.UuidGenerator;
 import uz.urinov.kun.enums.ArticleStatus;
 
 import java.time.LocalDateTime;
@@ -15,8 +16,8 @@ import java.util.UUID;
 @Table(name = "article")
 public class ArticleEntity {
     @Id
-    @GeneratedValue
-    private UUID id;
+    @UuidGenerator
+    private String id;
 
     @Column(name = "title")      //   :)  davayyyyyyyyyy
     private String title;       // Yangilikning nomi
@@ -40,32 +41,39 @@ public class ArticleEntity {
     private LocalDateTime createDate = LocalDateTime.now();  // Yangilikni yozilgan vaqti
 
     @Column(name = "published_date")
-    private LocalDateTime publishedDate;             // Yangilik tahrir(tekshiruv)dan o'tgan va hammaga ko'rsatilgan vaqti
+    private LocalDateTime publishedDate;        // Yangilik tahrir(tekshiruv)dan o'tgan va hammaga ko'rsatilgan vaqti
 
     @Column(name = "visible")
     private Boolean visible = Boolean.TRUE;
 
-    @ManyToOne
-    @JoinColumn(name = "region_id")
-    private RegionEntity region;                      // BU yangilik qayer(region) da sodir bo'ldi
+    @Column(name = "region_id")
+    private Integer regionId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "region_id",insertable = false, updatable = false)
+    private RegionEntity region;                  // BU yangilik qayer(region) da sodir bo'ldi
 
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private CategoryEntity category;                  // BU yangilik qanday category ga tegishli  bo'ladi
+    @Column(name = "category_id")
+    private Integer categoryId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id",insertable = false, updatable = false)
+    private CategoryEntity category;               // BU yangilik qanday category ga tegishli  bo'ladi
 
-    @ManyToOne
-    @JoinColumn(name = "moderator_id")
-    private ProfileEntity moderator;                  // Yangilikni yozgan odam
+    @Column(name = "moderator_id")
+    private Integer moderatorId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "moderator_id",insertable = false, updatable = false)
+    private ProfileEntity moderator;                // Yangilikni yozgan odam
 
-    @ManyToOne
-    @JoinColumn(name = "publisher_id")
-    private ProfileEntity publisher;                  // Yangilikni tahrir(tekshirgan) odam
-
-    @OneToMany
-    @JoinColumn(name = "articleTypes")
-    private List<ArticleTypeEntity> articleType;
+    @Column(name = "publisher_id")
+    private Integer publisherId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "publisher_id",insertable = false, updatable = false)
+    private ProfileEntity publisher;                // Yangilikni tahrir(tekshirgan) odam
 
     @Enumerated(EnumType.STRING)
     private ArticleStatus status = ArticleStatus.NOT_PUBLISHED;
+
+    @OneToMany(mappedBy = "article")
+    private List<ArticleTypesEntity> articleTypesEntity;
 
 }

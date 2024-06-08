@@ -17,6 +17,7 @@ public interface ProfileRepository extends CrudRepository<ProfileEntity, Integer
 
     // Profile registration
     Optional<ProfileEntity> findByEmail(String email);
+//    Optional<ProfileEntity> findByEmailAndVisibleTrue(String email);
 
     // Profile login
     Optional<ProfileEntity> findByEmailAndPasswordAndVisibleTrue(String email, String password);

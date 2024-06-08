@@ -1,8 +1,9 @@
 
 ### 1. Create profile (ADMIN) (can create MODERATOR,PUBLISHER))
 ###         (name,surname,email,phone,password,status,role)
-POST http://localhost:8080/profile/create
+POST http://localhost:8080/profile/adm/create
 Content-Type: application/json
+Authorization: Bearer
 
 {
   "name": "Aziz",
@@ -17,7 +18,6 @@ PUT http://localhost:8080/profile/update-own
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTY5MDkzODAsImlkIjoyLCJyb2xlIjoiUk9MRV9VU0VSIiwiZXhwIjoxNzE2OTk1Nzg4LCJpc3MiOiJLdW5VelRlc3QifQ.UkeU82o7UHVA581mlwCsvzAkRDuMZcPEWF1ArSe7rm9ns40u12tVP8UrP4UTfkPTrR9PSvtrA44XDwq_nbcXcQ
 
-
 {
   "name": "Temur",
   "surname": "Abdurasulov",
@@ -27,9 +27,11 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTY5MDkzODAsImlkIjoyLCJyb
 }
 
 ###  4. Profile List (ADMIN) (Pagination)
-GET http://localhost:8080/profile/page?
+GET http://localhost:8080/profile/adm/page?
     page=1&
     size=7
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTc0OTU4MTQsImlkIjozLCJ1c2VybmFtZSI6InVyaW5vdnNob2tpcmpvbjkzQGdtYWlsLmNvbSIsInJvbGUiOiJST0xFX0FETUlOIiwiZXhwIjoxNzE3NTgyMjE0LCJpc3MiOiJLdW5VelRlc3QifQ.NatZR9dtpN5FiQE5aDLqng5VYQecSE0UkN4MKO-xcoJCiHH5fsBC4O6Uk_9tE7pIZ7Uqdu6-UFWQb-OWo2BpTw
 
 ### 5. Delete Profile By Id (ADMIN)
-DELETE http://localhost:8080/profile/delete/6
+DELETE http://localhost:8080/profile/adm/delete/5
+Authorization: Bearer

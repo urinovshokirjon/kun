@@ -39,10 +39,9 @@ GET http://localhost:8080/auth/verifySms?
 ### 2. Profile login
 POST http://localhost:8080/auth/login
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTY5MDkzODAsImlkIjoyLCJyb2xlIjoiUk9MRV9VU0VSIiwiZXhwIjoxNzE2OTk1Nzg4LCJpc3MiOiJLdW5VelRlc3QifQ.UkeU82o7UHVA581mlwCsvzAkRDuMZcPEWF1ArSe7rm9ns40u12tVP8UrP4UTfkPTrR9PSvtrA44XDwq_nbcXcQ
 
 {
-  "username": "urinovshokirjon93@gmail.com",
+  "username": "urinovshokirjon@gmail.com",
   "password": "12345"
 }
 

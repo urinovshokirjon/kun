@@ -1,5 +1,6 @@
 package uz.urinov.kun.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import uz.urinov.kun.util.SecurityUtil;
 
 import java.util.List;
 
+@SecurityRequirement(name = "Authorization")
 @RestController
 @RequestMapping("/region")
 public class RegionController {
@@ -27,13 +29,6 @@ public class RegionController {
     // 1. Region create (ADMIN)
 @PostMapping("/adm/create")
     public ResponseEntity<RegionResponseDTO> createRegion(@Valid @RequestBody RegionCreateDTO regionDto) {
-
-//        @RequestHeader("Authorization") String token
-//        JwtDTO dto = SecurityUtil.getJwtDTO(token);
-//        if (!dto.getRole().equals(ProfileRole.ROLE_ADMIN)) {
-//            throw new AppForbiddenException("Kechirasiz sizda bunday huquq yo'q");
-//        }
-
         RegionResponseDTO regionResponseDTO = regionService.createRegion(regionDto);
         return ResponseEntity.ok(regionResponseDTO);
     }
@@ -42,13 +37,6 @@ public class RegionController {
     @PutMapping("/adm/update/{id}")
     public ResponseEntity<Result> updateRegion(@Valid @RequestBody RegionCreateDTO regionDto,
                                                @PathVariable("id") int id) {
-
-//        @RequestHeader("Authorization") String token
-//        JwtDTO dto = SecurityUtil.getJwtDTO(token);
-//        if (!dto.getRole().equals(ProfileRole.ROLE_ADMIN)) {
-//            throw new AppForbiddenException("Kechirasiz sizda bunday huquq yo'q");
-//        }
-
         Result result = regionService.updateRegion(regionDto,id);
         return ResponseEntity.status(result.isSuccess()?HttpStatus.OK:HttpStatus.CONFLICT).body(result);
     }
@@ -56,13 +44,6 @@ public class RegionController {
     // 3. Region list (ADMIN)
     @GetMapping("/adm/list")
     public ResponseEntity<List<RegionResponseDTO>> getRegionList() {
-
-//        @RequestHeader("Authorization") String token
-//        JwtDTO dto = SecurityUtil.getJwtDTO(token);
-//        if (!dto.getRole().equals(ProfileRole.ROLE_ADMIN)) {
-//            throw new AppForbiddenException("Kechirasiz sizda bunday huquq yo'q");
-//        }
-
         List<RegionResponseDTO> regionDtoList=regionService.getRegionList();
         return ResponseEntity.status(HttpStatus.OK).body(regionDtoList);
     }
@@ -70,14 +51,6 @@ public class RegionController {
     // 4. Region delete (ADMIN)
     @DeleteMapping("/adm/delete/{id}")
     public ResponseEntity<Result> deleteRegion( @PathVariable int id) {
-
-
-//        @RequestHeader("Authorization") String token
-//        JwtDTO dto = SecurityUtil.getJwtDTO(token);
-//        if (!dto.getRole().equals(ProfileRole.ROLE_ADMIN)) {
-//            throw new AppForbiddenException("Kechirasiz sizda bunday huquq yo'q");
-//        }
-
         Result result = regionService.deleteRegion(id);
         return ResponseEntity.status(result.isSuccess()?HttpStatus.OK:HttpStatus.CONFLICT).body(result);
     }
@@ -85,7 +58,6 @@ public class RegionController {
     // 5. Region By Lang
     @GetMapping("/lang")
     public ResponseEntity<List<RegionResponseDTO>> getRegionByLang2(@RequestHeader(value = "Accept-Language",defaultValue = "UZ") LanguageEnum lang) {
-
         List<RegionResponseDTO> regionLangDtoList=regionService.getRegionByLang(lang);
         return ResponseEntity.status(HttpStatus.OK).body(regionLangDtoList);
     }

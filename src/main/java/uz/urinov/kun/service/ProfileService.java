@@ -14,6 +14,8 @@ import uz.urinov.kun.enums.Result;
 import uz.urinov.kun.exp.AppBadException;
 import uz.urinov.kun.repository.ProfileRepository;
 import uz.urinov.kun.repository.ProfileFilterRepository;
+import uz.urinov.kun.util.MD5Util;
+import uz.urinov.kun.util.SecurityUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,9 +41,7 @@ public class ProfileService {
         profileEntity.setSurname(profileCreateDTO.getSurname());
         profileEntity.setPhone(profileCreateDTO.getPhone());
         profileEntity.setEmail(profileCreateDTO.getEmail());
-        profileEntity.setPassword(profileCreateDTO.getPassword());
-        profileEntity.setStatus(ProfileStatus.INACTIVE);
-        profileEntity.setRole(ProfileRole.ROLE_USER);
+        profileEntity.setPassword(MD5Util.getMD5(profileCreateDTO.getPassword()));
         profileRepository.save(profileEntity);
         return new Result("Foydalanuvchi yaratildi",true);
     }
@@ -63,19 +63,14 @@ public class ProfileService {
 
 
    // 3. Update Profile Detail (ANY) (Profile updates own details)
-    public Result updateProfileOwe(int id, ProfileUpdateDTO profileUpdateDTO) {
+    public Result updateProfileOwe( ProfileUpdateDTO profileUpdateDTO) {
 
-        ProfileEntity profileEntity = getProfileById(id);
+        ProfileEntity profileEntity = getProfileById(SecurityUtil.getProfileId());
         profileEntity.setName(profileUpdateDTO.getName());
         profileEntity.setSurname(profileUpdateDTO.getSurname());
-//        profileEntity.setPhone(profileUpdateDTO.getPhone());
-//        profileEntity.setEmail(profileCreateDTO.getEmail());
-//        profileEntity.setPassword(profileCreateDTO.getPassword());
         profileRepository.save(profileEntity);
         return new Result("Foydalanuvchi tahrirlandi",true);
-
     }
-
     // 4. Profile List (ADMIN) (Pagination)
     public PageImpl<ProfileResponseDTO> getProfilePage(int page, int size) {
 

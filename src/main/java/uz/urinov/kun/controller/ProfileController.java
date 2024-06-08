@@ -23,72 +23,50 @@ public class ProfileController {
     private ProfileService profileService;
 
     //  1. Create profile (ADMIN)
-    @PostMapping("/create")
-    public ResponseEntity<Result> createProfile(@RequestBody ProfileCreateDTO profileCreateDTO,
-                                                @RequestHeader("Authorization") String token,
-                                                HttpServletRequest request){
-//        SecurityUtil.getJwtDTO(token, ProfileRole.ROLE_ADMIN);
-        JwtDTO jwtDTO = HttpRequestUtil.getJwtDTO(request, ProfileRole.ROLE_ADMIN);
+    @PostMapping("/adm/create")
+    public ResponseEntity<Result> createProfile(@RequestBody ProfileCreateDTO profileCreateDTO){
+
         Result result =profileService.createProfile(profileCreateDTO);
         return ResponseEntity.status(result.isSuccess()? HttpStatus.CREATED:HttpStatus.BAD_REQUEST).body(result);
     }
     //  2. Update Profile (ADMIN)
-    @PutMapping("/update/{id}")
+    @PutMapping("/adm/update/{id}")
     public ResponseEntity<Boolean> update(@PathVariable("id") Integer id,
-                                          @Valid @RequestBody ProfileCreateDTO profile,
-                                          @RequestHeader("Authorization") String token) {
-        SecurityUtil.getJwtDTO(token, ProfileRole.ROLE_ADMIN);
+                                          @Valid @RequestBody ProfileCreateDTO profile) {
+
         profileService.update(id, profile);
         return ResponseEntity.ok().body(true);
     }
 
     // 3. Update Profile Detail (ANY) (Profile updates own details)
     @PutMapping("/update-own")
-    public ResponseEntity<Result> updateProfileOwe(@Valid  @RequestBody ProfileUpdateDTO profileUpdateDTO,
-                                                   @RequestHeader("Authorization") String token){
-        JwtDTO dto = SecurityUtil.getJwtDTO(token);
-        Result result =profileService.updateProfileOwe(dto.getId(),profileUpdateDTO);
+    public ResponseEntity<Result> updateProfileOwe(@Valid  @RequestBody ProfileUpdateDTO profileUpdateDTO){
+
+        Result result =profileService.updateProfileOwe(profileUpdateDTO);
         return ResponseEntity.status(result.isSuccess()? HttpStatus.OK:HttpStatus.CONFLICT).body(result);
     }
 
    // 4. Profile List (ADMIN) (Pagination)
-    @GetMapping("/page")
+    @GetMapping("/adm/page")
     public ResponseEntity<PageImpl<ProfileResponseDTO>> getProfilePage(@RequestParam int page,
-                                                                       @RequestParam int size,
-                                                                       @RequestHeader("Authorization") String token){
-        JwtDTO dto = SecurityUtil.getJwtDTO(token);
-        if (!dto.getRole().equals(ProfileRole.ROLE_ADMIN)) {
-            throw new AppForbiddenException("Kechirasiz sizda bunday huquq yo'q");
-        }
+                                                                       @RequestParam int size){
         PageImpl<ProfileResponseDTO> profileResponseDTOPage=profileService.getProfilePage(page-1,size);
         return ResponseEntity.status(HttpStatus.OK).body(profileResponseDTOPage);
     }
 
     // 5. Delete Profile By Id (ADMIN)
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Result> deleteProfile(@PathVariable int id,
-                                                @RequestHeader("Authorization") String token){
-
-        JwtDTO dto = SecurityUtil.getJwtDTO(token);
-        if (!dto.getRole().equals(ProfileRole.ROLE_ADMIN)) {
-            throw new AppForbiddenException("Kechirasiz sizda bunday huquq yo'q");
-        }
+    @DeleteMapping("/adm/delete/{id}")
+    public ResponseEntity<Result> deleteProfile(@PathVariable int id){
         Result result =profileService.deleteProfile(id);
         return ResponseEntity.status(result.isSuccess()? HttpStatus.OK:HttpStatus.CONFLICT).body(result);
     }
 
     //  7. Filter (name,surname,phone,role,created_date_from,created_date_to)
-    @PostMapping("page-filter")
+    @PostMapping("/adm/page-filter")
     public ResponseEntity<PageImpl<ProfileResponseDTO>> getProfilePageFilter(
             @RequestParam("page") int page,
             @RequestParam("size") int size,
-            @RequestBody ProfileFilterDTO profileFilterDTO,
-            @RequestHeader("Authorization") String token){
-
-        JwtDTO dto = SecurityUtil.getJwtDTO(token);
-        if (!dto.getRole().equals(ProfileRole.ROLE_ADMIN)) {
-            throw new AppForbiddenException("Kechirasiz sizda bunday huquq yo'q");
-        }
+            @RequestBody ProfileFilterDTO profileFilterDTO){
       PageImpl<ProfileResponseDTO> profileResponseDTOPage= profileService.getProfilePageFilter(page-1,size,profileFilterDTO);
       return ResponseEntity.ok().body(profileResponseDTOPage);
     }

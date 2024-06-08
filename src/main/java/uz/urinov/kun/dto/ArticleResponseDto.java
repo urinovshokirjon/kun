@@ -12,7 +12,7 @@ import java.util.UUID;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ArticleResponseDto {
 
-    private UUID uuid;
+    private String id;
 
     private String title;   // Yangilikning nomi
 
@@ -28,7 +28,7 @@ public class ArticleResponseDto {
 
     private LocalDateTime createDate;  // Yangilikni yozilgan vaqti
 
-    private LocalDateTime published_date;                 // Yangilik tahrir(tekshiruv)dan o'tgan va hammaga ko'rsatilgan vaqti
+    private LocalDateTime publishedDate;                 // Yangilik tahrir(tekshiruv)dan o'tgan va hammaga ko'rsatilgan vaqti
 
     private RegionResponseDTO region;                   // BU yangilik qayer(region) da sodir bo'ldi
 

@@ -5,15 +5,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
-import uz.urinov.kun.entity.ArticleTypeEntity;
+import uz.urinov.kun.entity.TypesEntity;
 import uz.urinov.kun.mapper.ArticleTypeMapper;
 
 import java.util.List;
 
-public interface ArticleTypeRepository extends CrudRepository<ArticleTypeEntity, Integer> {
+public interface TypesRepository extends CrudRepository<TypesEntity, Integer> {
 
     // 3. List ArticleType
-    Page<ArticleTypeEntity> findAllByVisibleTrueOrderByOrderNumber(Pageable pageable);
+    Page<TypesEntity> findAllByVisibleTrueOrderByOrderNumber(Pageable pageable);
 
     //
     @Query(value = "SELECT id," +
@@ -26,7 +26,7 @@ public interface ArticleTypeRepository extends CrudRepository<ArticleTypeEntity,
     Page<ArticleTypeMapper> getArticleTypePage(@Param("lang") String lang, Pageable pageable);
 
 
-    List<ArticleTypeEntity> findAllByIdIn(List<Integer> ids);
+    List<TypesEntity> findAllByIdIn(List<Integer> ids);
 
 }
 

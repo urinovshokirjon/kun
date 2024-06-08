@@ -1,6 +1,10 @@
 package uz.urinov.kun.util;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import uz.urinov.kun.config.CustomUserDetail;
 import uz.urinov.kun.dto.JwtDTO;
+import uz.urinov.kun.entity.ProfileEntity;
 import uz.urinov.kun.enums.ProfileRole;
 import uz.urinov.kun.exp.AppForbiddenException;
 
@@ -18,5 +22,16 @@ public class SecurityUtil {
             throw new AppForbiddenException("Method not allowed");
         }
         return dto;
+    }
+    public static Integer getProfileId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetail user = (CustomUserDetail) authentication.getPrincipal();
+        return user.getProfile().getId();
+    }
+
+    public static ProfileEntity getProfile() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetail user = (CustomUserDetail) authentication.getPrincipal();
+        return user.getProfile();
     }
 }

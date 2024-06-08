@@ -1,6 +1,7 @@
 ### 1. Region create
-POST http://localhost:8080/region/create
+POST http://localhost:8080/region/adm/create
 Content-Type: application/json
+Authorization: Bearer
 
 {
   "orderNumber": 6,
@@ -11,8 +12,9 @@ Content-Type: application/json
 
 
 ### 2. Region update
-PUT http://localhost:8080/region/update/6
+PUT http://localhost:8080/region/adm/update/6
 Content-Type: application/json
+Authorization: Bearer
 
 {
   "orderNumber": 6,
@@ -22,11 +24,14 @@ Content-Type: application/json
 }
 
 ### 3. Region list
-GET http://localhost:8080/region/list
+GET http://localhost:8080/region/adm/list
+Authorization: Bearer
 
 ### 4. Region delete
-DELETE http://localhost:8080/region/delete/1
+DELETE http://localhost:8080/region/adm/delete/1
+Authorization: Bearer
 
 ### 5. Region By Lang
 GET http://localhost:8080/region/lang
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTc0OTUyMzgsImlkIjoyLCJ1c2VybmFtZSI6InVyaW5vdnNob2tpcmpvbjNAZ21haWwuY29tIiwicm9sZSI6IlJPTEVfUFVCTElTSEVSIiwiZXhwIjoxNzE3NTgxNjM4LCJpc3MiOiJLdW5VelRlc3QifQ.2autu3VKKZQx8cE7N1m51Qtad52N2iIFUQTA4ayFrK7U45tbuJtL8xwiuGbh5VTVY1UdidgmEMLJoSq4hblc1Q
 Accept-Language: UZ

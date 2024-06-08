@@ -44,7 +44,6 @@ public class CategoryService {
 
     // 3. Category list
     public List<CategoryResponseDto> getCategoryList() {
-
         List<CategoryResponseDto> categoryDtoList = new ArrayList<>();
 
         for (CategoryEntity categoryEntity : categoryRepository.findAllByVisibleTrueOrderByOrderNumber()) {

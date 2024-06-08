@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ArticleTypeCreateDto {
+public class TypesCreateDto {
 
     @NotNull(message = " Type number bo'sh bo'lishi mumkin emas")
     @Min(value = 1, message = "Type number ning qiymati minimal 1 bo'lsin")
