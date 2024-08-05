@@ -1,6 +1,9 @@
 package uz.urinov.kun.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
@@ -11,15 +14,30 @@ import uz.urinov.kun.dto.ProfileResponseDTO;
 import uz.urinov.kun.enums.Result;
 import uz.urinov.kun.service.AuthService;
 
+@Slf4j
 @RestController
 @RequestMapping("/auth")
+@Tag(name = "Auth Controller", description = "Api list for authorization, registration and other ... ")
 public class AuthController {
     @Autowired
     private AuthService authService;
 
+//    private static final Logger LOGGER = LoggerFactory.getLogger(AuthController.class);
+
     // Profile registration Email
     @PostMapping("/registrationEmail")
+    @Operation( summary = "Registration", description = "Api for profile registration")
     public ResponseEntity<Result> registrationEmail(@Valid @RequestBody ProfileCreateDTO dto) {
+        log.info("Ismi name = {}  phone = {} ",dto.getName(),dto.getPhone());
+
+//        LOGGER.trace("for tracing purpose: registration");
+//        LOGGER.debug("for debugging purpose: registration");
+//        LOGGER.info("for informational purpose: registration");
+//        LOGGER.warn("for warning purpose: registration");
+//        LOGGER.error("for logging errors: registration");
+//        log.info("Registration name = {}  phone = {} ",dto.getName(),dto.getPhone());
+
+
         Result result = authService.registrationEmail(dto);
         return ResponseEntity.ok().body(result);
     }

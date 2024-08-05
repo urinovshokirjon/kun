@@ -8,6 +8,7 @@ import uz.urinov.kun.enums.ArticleStatus;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Setter
@@ -19,11 +20,11 @@ public class ArticleEntity {
     @UuidGenerator
     private String id;
 
-    @Column(name = "title")      //   :)  davayyyyyyyyyy
-    private String title;       // Yangilikning nomi
+    @Column(name = "title")       //   :)  davayyyyyyyyyy
+    private String title;        // Yangilikning nomi
 
     @Column(name = "description")
-    private String description; //  Yangilik haqida qisqacha malumot
+    private String description;   //  Yangilik haqida qisqacha malumot
 
     @Column(columnDefinition = "text")
     private String content;       // Malumotni to'liq qismi
@@ -34,8 +35,17 @@ public class ArticleEntity {
     @Column(name = "view_count")
     private Integer viewCount;    // Yangilikni ko'rilganlar soni
 
+    @Column(name = "like_count")
+    private Long likeCount;       // Yangilikka bosilgan likelar soni
+
+    @Column(name = "dislike_count")
+    private Long dislikeCount;       // Yangilikka bosilgan dislikelar soni
+
     @Column(name = "image_id")
-    private Integer imageId;      // Yangilikni rasmining Id si
+    private String imageId;       // Yangilikni rasmining Id si
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "image_id",insertable = false, updatable = false)
+    private AttachEntity attach;
 
     @Column(name = "create_date")
     private LocalDateTime createDate = LocalDateTime.now();  // Yangilikni yozilgan vaqti
@@ -75,5 +85,11 @@ public class ArticleEntity {
 
     @OneToMany(mappedBy = "article")
     private List<ArticleTypesEntity> articleTypesEntity;
+
+    @OneToMany(mappedBy = "article")
+    private List<ArticleTypesEntity> articleTypes;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Set<ArticleTagEntity> articleTag;
 
 }

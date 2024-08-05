@@ -1,5 +1,6 @@
 package uz.urinov.kun.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -8,18 +9,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import uz.urinov.kun.dto.*;
 import uz.urinov.kun.entity.ProfileEntity;
-import uz.urinov.kun.enums.ProfileRole;
-import uz.urinov.kun.enums.ProfileStatus;
 import uz.urinov.kun.enums.Result;
 import uz.urinov.kun.exp.AppBadException;
-import uz.urinov.kun.repository.ProfileRepository;
 import uz.urinov.kun.repository.ProfileFilterRepository;
+import uz.urinov.kun.repository.ProfileRepository;
 import uz.urinov.kun.util.MD5Util;
 import uz.urinov.kun.util.SecurityUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@Slf4j
 @Service
 public class ProfileService {
 
@@ -27,6 +26,8 @@ public class ProfileService {
     private ProfileRepository profileRepository;
     @Autowired
     private ProfileFilterRepository profileFilterRepository;
+
+//    private static final Logger LOGGER = LoggerFactory.getLogger(ProfileService.class);
 
     //  1. Create profile (ADMIN)
     public Result createProfile(ProfileCreateDTO profileCreateDTO) {
@@ -108,7 +109,8 @@ public class ProfileService {
 
     public ProfileEntity getProfileById(int id) {
       return   profileRepository.findById(id).orElseThrow(()->{
-            throw new AppBadException("Bunday profile topilmadi");
+          log.warn("Profile not found id : {}",id);
+          throw new AppBadException("Bunday profile topilmadi");
         });
     }
 

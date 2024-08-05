@@ -1,4 +1,4 @@
-//package uz.urinov.kun.config;
+ //package uz.urinov.kun.config;
 //
 //import jakarta.servlet.Filter;
 //import org.springframework.beans.factory.annotation.Autowired;

@@ -34,4 +34,8 @@ GET http://localhost:8080/article-type/lang?
     size=9
 Accept-Language: UZ
 
+###
+
+ ### "tagList": ["#lavozim","#daxshat","#mazgi"]
+
 

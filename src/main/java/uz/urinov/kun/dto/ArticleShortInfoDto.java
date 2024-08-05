@@ -17,5 +17,5 @@ public class ArticleShortInfoDto {
 
     private String description; /// Yangilik haqida qisqacha malumot
 
-    private Integer imageId;      // Yangilikni rasmining Id si
+    private String imageId;      // Yangilikni rasmining Id si
 }

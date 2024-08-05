@@ -25,7 +25,7 @@ public class ProfileCreateDTO {
     @NotBlank(message = "Email bo'sh bo'lishi mumkin emas")
     private String email;
 
-    @Size(min = 12, max = 12, message = "Berilgan phone uzunligi 12 va 12 orasida bo'lishi kerak")
+    @Size(min = 12, max = 12, message = "Berilgan telefon raqamizgiz uzunligi  12 ta bo'lishi  kerak")
     @NotBlank(message = "Email bo'sh bo'lishi mumkin emas")
     private String phone;
 

@@ -3,10 +3,10 @@ POST http://localhost:8080/auth/registrationEmail
 Content-Type: application/json
 
 {
-  "name": "Ali",
+  "name": "Alish",
   "surname": "Aliyev",
-  "email": "urinovshokirjon93@gmail.com",
-  "phone": "998941785150",
+  "email": "urinovshokirjon193@gmail.com",
+  "phone": "998941785160",
   "password": "12345"
 }
 

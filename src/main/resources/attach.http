@@ -1,0 +1,10 @@
+POST http://localhost:8080/attach/upload
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="Mansurjon.jpg"
+
+< C:\Users\Urinov Shokirjon\Desktop\Mansurjon.jpg
+
+### load image
+GET http://localhost:8080/attach/open/MANSURJON.jpg

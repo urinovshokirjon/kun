@@ -24,7 +24,7 @@ public class ArticleResponseDto {
 
     private Integer viewCount;    // Yangilikni ko'rilganlar soni
 
-    private Integer imageId;      // Yangilikni rasmining Id si
+    private String imageId;      // Yangilikni rasmining Id si
 
     private LocalDateTime createDate;  // Yangilikni yozilgan vaqti
 
@@ -40,6 +40,12 @@ public class ArticleResponseDto {
 
     private ArticleStatus status;
 
+    private Long likeCount;
+
+    private Long dislikeCount;
+
     private Boolean visible;
+
+    private AttachDto image;
 
 }

@@ -98,6 +98,20 @@ public class RegionService {
     }
 
 
+    public RegionResponseDTO getRegion(Integer id, LanguageEnum lang) {
+        RegionEntity region = getRegionEntityById(id);
+        RegionResponseDTO dto = new RegionResponseDTO();
+        dto.setId(region.getId());
+        switch (lang) {
+            case UZ -> dto.setName(region.getNameUz());
+            case RU -> dto.setName(region.getNameRu());
+            default -> dto.setName(region.getNameEn());
+        }
+        return dto;
+    }
+
+
+
     public RegionResponseDTO toDTO(RegionEntity entity){
         RegionResponseDTO dto = new RegionResponseDTO();
         dto.setId(entity.getId());

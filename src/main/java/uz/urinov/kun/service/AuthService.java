@@ -1,10 +1,14 @@
 package uz.urinov.kun.service;
 
 import jakarta.mail.internet.MimeMessage;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import uz.urinov.kun.controller.AuthController;
 import uz.urinov.kun.dto.LoginDto;
 import uz.urinov.kun.dto.ProfileCreateDTO;
 import uz.urinov.kun.dto.ProfileResponseDTO;
@@ -25,7 +29,7 @@ import uz.urinov.kun.util.RandomUtil;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
-
+@Slf4j
 @Service
 public class AuthService {
     @Autowired
@@ -43,10 +47,16 @@ public class AuthService {
     @Autowired
     private SmsHistoryService smsHistoryService;
 
+//    private static final Logger LOGGER = LoggerFactory.getLogger(AuthService.class);
+
+
+
     // Profile registration Email
     public Result registrationEmail(ProfileCreateDTO dto) {
         Boolean existsedByPhoneOrEmail = profileRepository.existsByPhoneOrEmail(dto.getPhone(), dto.getEmail());
         if (existsedByPhoneOrEmail) {
+            log.warn("Email already exists email : {}", dto.getEmail());
+
             return new Result("Bunday telefon yoki email oldin ro'yxatga olingan", false);
         }
         ProfileEntity entity = new ProfileEntity();
@@ -79,7 +89,7 @@ public class AuthService {
             return new Result("Email yoki emailCode xato", false);
         }
         Optional<ProfileEntity> profileEntityOptional = profileRepository.findByEmail(email);
-        if (profileEntityOptional.isEmpty()) {
+        if (profileEntityOptional.isEmpty() || !profileEntityOptional.get().getStatus().equals(ProfileStatus.INACTIVE)) {
             return new Result("Email yoki emailCode xato", false);
         }
         ProfileEntity profileEntity = profileEntityOptional.get();
@@ -98,7 +108,8 @@ public class AuthService {
 
         ProfileEntity profileEntity = profileEntityOptional.get();
 
-        if (!profileEntity.getVisible() || !profileEntity.getStatus().equals(ProfileStatus.INACTIVE)) {
+        if (!profileEntity.getStatus().equals(ProfileStatus.INACTIVE)) {
+            log.error("Email already exists email : {}", email);
             throw new AppBadException("Registration not completed");
         }
         emailHistoryService.checkEmailLimit(profileEntity.getEmail());

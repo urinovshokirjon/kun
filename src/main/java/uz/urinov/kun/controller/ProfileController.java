@@ -1,5 +1,6 @@
 package uz.urinov.kun.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import uz.urinov.kun.util.HttpRequestUtil;
 import uz.urinov.kun.util.JWTUtil;
 import uz.urinov.kun.util.SecurityUtil;
 
+@SecurityRequirement(name = "Authorization")
 @RestController
 @RequestMapping("/profile")
 public class ProfileController {
@@ -24,11 +26,12 @@ public class ProfileController {
 
     //  1. Create profile (ADMIN)
     @PostMapping("/adm/create")
-    public ResponseEntity<Result> createProfile(@RequestBody ProfileCreateDTO profileCreateDTO){
+    public ResponseEntity<Result> createProfile(@RequestBody ProfileCreateDTO profileCreateDTO) {
 
-        Result result =profileService.createProfile(profileCreateDTO);
-        return ResponseEntity.status(result.isSuccess()? HttpStatus.CREATED:HttpStatus.BAD_REQUEST).body(result);
+        Result result = profileService.createProfile(profileCreateDTO);
+        return ResponseEntity.status(result.isSuccess() ? HttpStatus.CREATED : HttpStatus.BAD_REQUEST).body(result);
     }
+
     //  2. Update Profile (ADMIN)
     @PutMapping("/adm/update/{id}")
     public ResponseEntity<Boolean> update(@PathVariable("id") Integer id,
@@ -40,25 +43,25 @@ public class ProfileController {
 
     // 3. Update Profile Detail (ANY) (Profile updates own details)
     @PutMapping("/update-own")
-    public ResponseEntity<Result> updateProfileOwe(@Valid  @RequestBody ProfileUpdateDTO profileUpdateDTO){
+    public ResponseEntity<Result> updateProfileOwe(@Valid @RequestBody ProfileUpdateDTO profileUpdateDTO) {
 
-        Result result =profileService.updateProfileOwe(profileUpdateDTO);
-        return ResponseEntity.status(result.isSuccess()? HttpStatus.OK:HttpStatus.CONFLICT).body(result);
+        Result result = profileService.updateProfileOwe(profileUpdateDTO);
+        return ResponseEntity.status(result.isSuccess() ? HttpStatus.OK : HttpStatus.CONFLICT).body(result);
     }
 
-   // 4. Profile List (ADMIN) (Pagination)
+    // 4. Profile List (ADMIN) (Pagination)
     @GetMapping("/adm/page")
     public ResponseEntity<PageImpl<ProfileResponseDTO>> getProfilePage(@RequestParam int page,
-                                                                       @RequestParam int size){
-        PageImpl<ProfileResponseDTO> profileResponseDTOPage=profileService.getProfilePage(page-1,size);
+                                                                       @RequestParam int size) {
+        PageImpl<ProfileResponseDTO> profileResponseDTOPage = profileService.getProfilePage(page - 1, size);
         return ResponseEntity.status(HttpStatus.OK).body(profileResponseDTOPage);
     }
 
     // 5. Delete Profile By Id (ADMIN)
     @DeleteMapping("/adm/delete/{id}")
-    public ResponseEntity<Result> deleteProfile(@PathVariable int id){
-        Result result =profileService.deleteProfile(id);
-        return ResponseEntity.status(result.isSuccess()? HttpStatus.OK:HttpStatus.CONFLICT).body(result);
+    public ResponseEntity<Result> deleteProfile(@PathVariable int id) {
+        Result result = profileService.deleteProfile(id);
+        return ResponseEntity.status(result.isSuccess() ? HttpStatus.OK : HttpStatus.CONFLICT).body(result);
     }
 
     //  7. Filter (name,surname,phone,role,created_date_from,created_date_to)
@@ -66,12 +69,10 @@ public class ProfileController {
     public ResponseEntity<PageImpl<ProfileResponseDTO>> getProfilePageFilter(
             @RequestParam("page") int page,
             @RequestParam("size") int size,
-            @RequestBody ProfileFilterDTO profileFilterDTO){
-      PageImpl<ProfileResponseDTO> profileResponseDTOPage= profileService.getProfilePageFilter(page-1,size,profileFilterDTO);
-      return ResponseEntity.ok().body(profileResponseDTOPage);
+            @RequestBody ProfileFilterDTO profileFilterDTO) {
+        PageImpl<ProfileResponseDTO> profileResponseDTOPage = profileService.getProfilePageFilter(page - 1, size, profileFilterDTO);
+        return ResponseEntity.ok().body(profileResponseDTOPage);
     }
-
-
 
 
 }

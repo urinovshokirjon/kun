@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Set;
 
 @Data
 public class ArticleCreateDto {
@@ -23,7 +24,7 @@ public class ArticleCreateDto {
     @Size(min = 3,  message = "Berilgan description ning uzunligi 3 ta harifdan kam bo'lishi mumkin emas")
     private String content;               // Malumotni to'liq qismi
 
-    private Integer imageId;              // Yangilikni rasmining Id si
+    private String imageId;              // Yangilikni rasmining Id si
 
     @NotNull(message = " Region number bo'sh bo'lishi mumkin emas")
     @Min(value = 1, message = "Region number ning qiymati minimal 1 bo'lsin")
@@ -37,5 +38,6 @@ public class ArticleCreateDto {
 //    @Min(value = 1, message = "ArticleType Id  number ning qiymati minimal 1 bo'lsin")
     private List<Integer> typesList; // Bu yangilikning artic type lari (bir nechta bo'lishi mumkin)
 
+    private Set<String> tagList;
 
 }

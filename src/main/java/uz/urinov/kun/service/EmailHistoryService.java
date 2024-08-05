@@ -1,5 +1,6 @@
 package uz.urinov.kun.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uz.urinov.kun.entity.EmailHistoryEntity;
@@ -9,6 +10,7 @@ import uz.urinov.kun.repository.EmailHistoryRepository;
 import java.time.LocalDateTime;
 
 @Service
+@RequiredArgsConstructor
 public class EmailHistoryService {
     @Autowired
     private EmailHistoryRepository emailHistoryRepository;

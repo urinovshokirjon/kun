@@ -91,6 +91,18 @@ public class CategoryService {
         return categoryLangDtoList;
     }
 
+    public CategoryResponseDto getCategory(Integer id, LanguageEnum lang) {
+        CategoryEntity categoryEntity = getCategoryEntityById(id);
+        CategoryResponseDto categoryDto=new CategoryResponseDto();
+        categoryDto.setId(categoryEntity.getId());
+        switch (lang){
+            case UZ -> categoryDto.setNameUz(categoryEntity.getNameUz());
+            case RU -> categoryDto.setNameRu(categoryEntity.getNameRu());
+            default -> categoryDto.setNameEn(categoryEntity.getNameEn());
+        }
+        return categoryDto;
+    }
+
     public CategoryResponseDto toDTO(CategoryEntity entity){
         CategoryResponseDto dto = new CategoryResponseDto();
         dto.setId(entity.getId());
